@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import styled, {createGlobalStyle} from "styled-components";
+import Sidebar from "./components/Sidebar";
+import Nav from "./components/Navbar";
+
+const MainFlexBox = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+  padding-top: 50px;
+`;
+
+const Global = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    font-family: 'Roboto', 'sans-serif';
+  }
+
+  body {
+    background-color: #EFEFEF;
+  }
+`;
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MainFlexBox>
+      <Global />
+      <Nav />
+      <Sidebar />
+      <div></div>
+    </MainFlexBox>
   );
 }
 
