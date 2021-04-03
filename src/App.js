@@ -1,6 +1,10 @@
-import styled, {createGlobalStyle} from "styled-components";
+import { BrowserRouter as Router, Route ,Redirect} from "react-router-dom";
+
+import styled, { createGlobalStyle } from "styled-components";
 import Sidebar from "./components/Sidebar";
 import Nav from "./components/Navbar";
+import DeliverableList from "./components/Deliverables/List";
+import DeliverableCreateForm from "./components/Deliverables/CreateForm";
 
 const MainFlexBox = styled.div`
   display: grid;
@@ -20,17 +24,32 @@ const Global = createGlobalStyle`
   body {
     background-color: #EFEFEF;
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 
+
 function App() {
+
   return (
-    <MainFlexBox>
-      <Global />
-      <Nav />
-      <Sidebar />
-      <div></div>
-    </MainFlexBox>
+<Router>
+
+      <MainFlexBox>
+        <Global />
+        <Nav />
+        <Sidebar />
+        <Route path="/deliverables" exact component={() => <DeliverableList />}/>
+        <Route path="/deliverables/create" exact component={() => <DeliverableCreateForm />}/>
+        <Redirect from="/" exact to="/deliverables" />
+
+        <div></div>
+      </MainFlexBox>
+</Router>
+
   );
 }
 

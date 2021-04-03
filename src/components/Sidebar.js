@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 const resources = [
   "Deliverables",
@@ -33,11 +34,14 @@ const BarItem = styled.div`
   transition: all 0.1s linear;
 `;
 
+
 const Sidebar = () => {
   return (
     <Bar>
       {resources.map((resource) => (
+        <Link to={resource.trim().toLowerCase()}>
         <BarItem>{resource}</BarItem>
+        </Link>
       ))}
     </Bar>
   );
