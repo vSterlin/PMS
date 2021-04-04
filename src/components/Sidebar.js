@@ -39,7 +39,7 @@ const Sidebar = () => {
   return (
     <Bar>
       {resources.map((resource) => (
-        <Link to={resource.trim().toLowerCase()}>
+        <Link to={"/"+resource.trim().toLowerCase()}>
         <BarItem>{resource}</BarItem>
         </Link>
       ))}

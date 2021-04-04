@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import styled from "styled-components";
 import Header from "../Header";
 import db from "../../firebase";
+import { Router, useHistory } from "react-router";
 
 const StyledForm = styled.form`
   margin: 0 20px;
@@ -17,13 +18,15 @@ const StyledInput = styled.input`
 `;
 
 const Form = () => {
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       name: "",
       description: "",
     },
-    onSubmit: (values) => {
-      db.collection("deliverables").add(values);
+    onSubmit: async (values) => {
+      const res = await db.collection("deliverables").add(values);
+      history.push("/deliverables");
     },
   });
 

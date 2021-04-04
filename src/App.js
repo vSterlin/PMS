@@ -44,7 +44,7 @@ function App() {
         <Sidebar />
         <Route path="/deliverables" exact component={() => <DeliverableList />}/>
         <Route path="/deliverables/create" exact component={() => <DeliverableCreateForm />}/>
-        <Redirect from="/" exact to="/deliverables" />
+        {/* <Redirect from="/" exact to="/deliverables" /> */}
 
         <div></div>
       </MainFlexBox>
