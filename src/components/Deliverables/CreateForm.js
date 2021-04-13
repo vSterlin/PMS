@@ -69,6 +69,7 @@ const Form = () => {
             value={formik.values.date}
             onChange={formik.handleChange}
             name="date"
+            type="date"
           />
         </div>
         <div>
