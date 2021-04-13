@@ -10,11 +10,21 @@ const StyledForm = styled.form`
   margin-top: 20px;
   padding: 0 300px;
   /* text-align: center; */
+  &> * > input, textarea {
+   padding: 5px;
+  }
 `;
 
 const StyledInput = styled.input`
   width: 100%;
   margin-bottom: 10px;
+`;
+
+const StyledTextArea = styled.textarea`
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  resize: none;
 `;
 
 const Form = () => {
@@ -23,6 +33,9 @@ const Form = () => {
     initialValues: {
       name: "",
       description: "",
+      date: "",
+      requirement: "",
+      task: "",
     },
     onSubmit: async (values) => {
       const res = await db.collection("deliverables").add(values);
@@ -43,13 +56,39 @@ const Form = () => {
           />
         </div>
         <div>
-          <StyledInput
+          <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
             onChange={formik.handleChange}
             name="description"
+          ></StyledTextArea>
+        </div>
+        <div>
+          <StyledInput
+            placeholder="Due Date (mm/dd/yy)"
+            value={formik.values.date}
+            onChange={formik.handleChange}
+            name="date"
           />
         </div>
+        <div>
+          <StyledInput
+            placeholder="List of Requirements"
+            value={formik.values.requirement}
+            onChange={formik.handleChange}
+            name="requirement"
+          />
+        </div>
+        <div>
+          <StyledInput
+            placeholder="List of Tasks"
+            value={formik.values.task}
+            onChange={formik.handleChange}
+            name="task"
+          />
+        </div>
+
+
         <div>
           <button>Submit</button>
         </div>
