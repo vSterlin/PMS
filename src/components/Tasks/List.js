@@ -5,8 +5,7 @@ import db from "../../firebase";
 import styled from "styled-components";
 import { CircleWithPlus } from "@styled-icons/entypo";
 import Loading from "../Loading";
-
-const DeliverableCard = styled.div`
+const TaskCard = styled.div`
   width: 50%;
   border-bottom: 1px grey solid;
   margin: 0 auto;
@@ -17,11 +16,11 @@ const DeliverableCard = styled.div`
   }
 `;
 
-const DeliverableName = styled.h3`
+const TaskName = styled.h3`
   font-weight: normal;
 `;
 
-const DeliverableDescription = styled.h4`
+const TaskDescription = styled.h4`
   font-weight: lighter;
 `;
 
@@ -50,18 +49,16 @@ const StyledIcon = styled(CircleWithPlus)`
   margin-right: 10px;
 `;
 
-
-
-const Deliverable = () => {
-  const [deliverables, setDeliverables] = useState(null);
+const Task = () => {
+  const [tasks, setTasks] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("deliverables").get();
+      const res = await db.collection("tasks").get();
 
-      setDeliverables(
-        res.docs.map((deliverable) => ({
-          ...deliverable.data(),
-          id: deliverable.id,
+      setTasks(
+        res.docs.map((task) => ({
+          ...task.data(),
+          id: task.id,
         }))
       );
     };
@@ -69,35 +66,34 @@ const Deliverable = () => {
   }, []);
   return (
     <div style={{ position: "relative" }}>
-      <Header>Deliverables</Header>
+      <Header>Tasks</Header>
       <ButtonWrapper>
-        <Link to="/deliverables/create">
+        <Link to="/tasks/create">
           {/* <button> */}
           <div>
             <StyledIcon />
-            New Deliverable
+            New Task
           </div>
           {/* </button> */}
         </Link>
       </ButtonWrapper>
-      {!deliverables && <Loading />}
-      {deliverables && deliverables.length === 0 && (
-        <p style={{ textAlign: "center" }}>Currently there are no deliverables</p>
+      {!tasks && <Loading />}
+      {tasks && tasks.length === 0 && (
+        <p style={{ textAlign: "center" }}>Currently there are no tasks</p>
       )}
-      {deliverables && deliverables.map((deliverable) => (
-        <DeliverableCard>
-          <DeliverableName>
-            Deliverable Name - {deliverable.name}
-          </DeliverableName>
-          <DeliverableDescription>
-            Deliverable Description - {deliverable.description} ***TEMPORARY ID
-            DISPLAY {deliverable.id}
-          </DeliverableDescription>
-          <DetailsLink to={`/deliverables/${deliverable.id}`}>Details</DetailsLink>
-        </DeliverableCard>
-      ))}
+      {tasks &&
+        tasks.map((task) => (
+          <TaskCard>
+            <TaskName>Task Name - {task.name}</TaskName>
+            <TaskDescription>
+              Task Description - {task.description} ***TEMPORARY ID DISPLAY{" "}
+              {task.id}
+            </TaskDescription>
+            <DetailsLink>Details</DetailsLink>
+          </TaskCard>
+        ))}
     </div>
   );
 };
 
-export default Deliverable;
+export default Task;

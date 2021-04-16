@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import styled from "styled-components";
 import Header from "../Header";
@@ -10,8 +10,9 @@ const StyledForm = styled.form`
   margin-top: 20px;
   padding: 0 300px;
   /* text-align: center; */
-  &> * > input, textarea {
-   padding: 5px;
+  & > * > input,
+  textarea {
+    padding: 5px;
   }
 `;
 
@@ -27,8 +28,30 @@ const StyledTextArea = styled.textarea`
   resize: none;
 `;
 
+const StyledSelect = styled.select`
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+`;
+
 const Form = () => {
   const history = useHistory();
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const tasks = await db.collection("tasks").get();
+      setTasks(
+        tasks.docs.map((task) => ({
+          ...task.data(),
+          id: task.id,
+        }))
+      );
+    };
+
+    fetchData();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -38,6 +61,7 @@ const Form = () => {
       task: "",
     },
     onSubmit: async (values) => {
+      values.task = db.doc(`tasks/${values.task}/`);
       const res = await db.collection("deliverables").add(values);
       history.push("/deliverables");
     },
@@ -74,21 +98,25 @@ const Form = () => {
         </div>
         <div>
           <StyledInput
-            placeholder="List of Requirements"
+            placeholder="List of Requirements (Not part of our project)"
             value={formik.values.requirement}
             onChange={formik.handleChange}
             name="requirement"
+            disabled
           />
         </div>
         <div>
-          <StyledInput
-            placeholder="List of Tasks"
+          <StyledSelect
             value={formik.values.task}
             onChange={formik.handleChange}
             name="task"
-          />
+          >
+            <option value="" label="List of Tasks" />
+            {tasks.map((task) => (
+              <option value={task.id} label={task.name} />
+            ))}
+          </StyledSelect>
         </div>
-
 
         <div>
           <button>Submit</button>

@@ -1,10 +1,15 @@
-import { BrowserRouter as Router, Route ,Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route ,Redirect, Switch} from "react-router-dom";
 
 import styled, { createGlobalStyle } from "styled-components";
 import Sidebar from "./components/Sidebar";
 import Nav from "./components/Navbar";
 import DeliverableList from "./components/Deliverables/List";
 import DeliverableCreateForm from "./components/Deliverables/CreateForm";
+
+import TaskList from "./components/Tasks/List";
+import TaskCreateForm from "./components/Tasks/CreateForm";
+import ShowDeliverable from "./components/Deliverables/ShowDeliverable";
+
 
 const MainFlexBox = styled.div`
   display: grid;
@@ -42,10 +47,17 @@ function App() {
         <Global />
         <Nav />
         <Sidebar />
+        <Switch>
+
         <Route path="/deliverables" exact component={() => <DeliverableList />}/>
         <Route path="/deliverables/create" exact component={() => <DeliverableCreateForm />}/>
+        <Route path="/deliverables/:id" exact component={() => <ShowDeliverable />} />
+
+        <Route path="/tasks" exact component={() => <TaskList />}/>
+        <Route path="/tasks/create" exact component={() => <TaskCreateForm />}/>
         {/* <Redirect from="/" exact to="/deliverables" /> */}
 
+        </Switch>
         <div></div>
       </MainFlexBox>
 </Router>
