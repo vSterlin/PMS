@@ -3,9 +3,12 @@ import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
 import { Router, useHistory } from "react-router";
-import { StyledForm, StyledInput, StyledSelect, StyledTextArea } from "../Reusable/Form";
-
-
+import {
+  StyledForm,
+  StyledInput,
+  StyledSelect,
+  StyledTextArea,
+} from "../Reusable/Form";
 
 const Form = () => {
   const history = useHistory();
@@ -28,10 +31,22 @@ const Form = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      type: "",
       description: "",
-      date: "",
-      requirement: "",
-      task: "",
+      expectedStartDate: "",
+      expectedEndDate: "",
+      expectedDuration: "",
+      expectedEffort: "",
+      actualStartDate: "",
+      actualEndDate: "",
+      actualDuration: "",
+      effortCompleted: "",
+      actualEffort: "",
+      percentComplete: "",
+      predecessorTask: "",
+      successorTask: "",
+      issues: "",
+      decisions: "",
     },
     onSubmit: async (values) => {
       const res = await db.collection("tasks").add(values);
@@ -54,7 +69,7 @@ const Form = () => {
         <div>
           <StyledInput
             placeholder="Task Type"
-            value={formik.values}
+            value={formik.values.type}
             onChange={formik.handleChange}
             name="type"
           />
@@ -70,92 +85,96 @@ const Form = () => {
         <div>
           <StyledInput
             placeholder="Expected Start Date (mm/dd/yy)"
-            value={formik.values.date}
+            value={formik.values.expectedStartDate}
             onChange={formik.handleChange}
-            name="date"
-            type="date"
+            name="expectedStartDate"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
-                    <StyledInput
+          <StyledInput
             placeholder="Expected End Date (mm/dd/yy)"
-            value={formik.values.date}
+            value={formik.values.expectedEndDate}
             onChange={formik.handleChange}
-            name="date"
-            type="date"
+            name="expectedEndDate"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
         </div>
 
         <div>
           <StyledInput
             placeholder="Expected Duration"
-            value={formik.values}
+            value={formik.values.expectedDuration}
             onChange={formik.handleChange}
-            name=""
+            name="expectedDuration"
           />
         </div>
         <div>
           <StyledInput
             placeholder="Expected Effort"
-            value={formik.values}
+            value={formik.values.expectedEffort}
             onChange={formik.handleChange}
-            name=""
+            name="expectedEffort"
           />
         </div>
         <div>
           <StyledInput
             placeholder="Actual Start Date (mm/dd/yy)"
-            value={formik.values.date}
+            value={formik.values.actualStartDate}
             onChange={formik.handleChange}
-            name="date"
-            type="date"
+            name="actualStartDate"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
-                    <StyledInput
+          <StyledInput
             placeholder="Actual End Date (mm/dd/yy)"
-            value={formik.values.date}
+            value={formik.values.actualEndDate}
             onChange={formik.handleChange}
-            name="date"
-            type="date"
+            name="actualEndDate"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
         </div>
 
         <div>
           <StyledInput
             placeholder="Actual Duration"
-            value={formik.values}
+            value={formik.values.actualDuration}
             onChange={formik.handleChange}
-            name=""
+            name="actualDuration"
           />
         </div>
         <div>
           <StyledInput
             placeholder="Effort Completed"
-            value={formik.values}
+            value={formik.values.effortCompleted}
             onChange={formik.handleChange}
-            name=""
+            name="effortCompleted"
           />
         </div>
         <div>
           <StyledInput
             placeholder="Actual Effort"
-            value={formik.values}
+            value={formik.values.actualEffort}
             onChange={formik.handleChange}
-            name=""
+            name="actualEffort"
           />
         </div>
 
         <div>
           <StyledInput
             placeholder="Percent Completed"
-            value={formik.values}
+            value={formik.values.percentComplete}
             onChange={formik.handleChange}
-            name=""
+            name="percentComplete"
           />
         </div>
 
         <div>
           <StyledSelect
-            value={formik.values}
+            value={formik.values.predecessorTask}
             onChange={formik.handleChange}
-            name=""
+            name="predecessorTask"
           >
             <option value="" label="Predecessor Tasks" />
             {tasks.map((task) => (
@@ -166,9 +185,9 @@ const Form = () => {
 
         <div>
           <StyledSelect
-            value={formik.values}
+            value={formik.values.successorTask}
             onChange={formik.handleChange}
-            name=""
+            name="successorTask"
           >
             <option value="" label="Successor Tasks" />
             {tasks.map((task) => (
@@ -179,9 +198,9 @@ const Form = () => {
 
         <div>
           <StyledSelect
-            value={formik.values}
+            value={formik.values.issues}
             onChange={formik.handleChange}
-            name=""
+            name="issues"
           >
             <option value="" label="List of Issues" />
             {tasks.map((task) => (
@@ -192,9 +211,9 @@ const Form = () => {
 
         <div>
           <StyledSelect
-            value={formik.values}
+            value={formik.values.decisions}
             onChange={formik.handleChange}
-            name=""
+            name="decisions"
           >
             <option value="" label="List of Decisions" />
             {tasks.map((task) => (
@@ -202,8 +221,6 @@ const Form = () => {
             ))}
           </StyledSelect>
         </div>
-
-
 
         <div>
           <button>Submit</button>
