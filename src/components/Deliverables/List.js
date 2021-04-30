@@ -1,54 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Header from "../Header";
+import Header from "../Reusable/Header";
 import { Link } from "react-router-dom";
 import db from "../../firebase";
-import styled from "styled-components";
-import { CircleWithPlus } from "@styled-icons/entypo";
-import Loading from "../Loading";
 
-const DeliverableCard = styled.div`
-  width: 50%;
-  border-bottom: 1px grey solid;
-  margin: 0 auto;
-  padding: 10px;
-  color: #6a6a6a;
-  & > * {
-    margin: 10px 0;
-  }
-`;
-
-const DeliverableName = styled.h3`
-  font-weight: normal;
-`;
-
-const DeliverableDescription = styled.h4`
-  font-weight: lighter;
-`;
-
-const DetailsLink = styled(Link)`
-  text-decoration: underline;
-  font-weight: bold;
-  padding-right: 0;
-  &:hover {
-    opacity: 0.8;
-  }
-  transition: all 0.1 linear;
-`;
-
-const ButtonWrapper = styled.div`
-  position: absolute;
-  right: 10%;
-  display: flex;
-  &:hover {
-    opacity: 0.6;
-  }
-  transition: all 0.1 linear;
-`;
-
-const StyledIcon = styled(CircleWithPlus)`
-  height: 20px;
-  margin-right: 10px;
-`;
+import Loading from "../Reusable/Loading";
+import { ItemCard, ItemDescription, ItemName, DetailsLink, StyledIcon, ButtonWrapper } from "../Reusable/ListItems";
 
 
 
@@ -85,16 +41,16 @@ const Deliverable = () => {
         <p style={{ textAlign: "center" }}>Currently there are no deliverables</p>
       )}
       {deliverables && deliverables.map((deliverable) => (
-        <DeliverableCard>
-          <DeliverableName>
+        <ItemCard>
+          <ItemName>
             Deliverable Name - {deliverable.name}
-          </DeliverableName>
-          <DeliverableDescription>
+          </ItemName>
+          <ItemDescription>
             Deliverable Description - {deliverable.description} ***TEMPORARY ID
             DISPLAY {deliverable.id}
-          </DeliverableDescription>
+          </ItemDescription>
           <DetailsLink to={`/deliverables/${deliverable.id}`}>Details</DetailsLink>
-        </DeliverableCard>
+        </ItemCard>
       ))}
     </div>
   );

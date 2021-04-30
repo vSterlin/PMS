@@ -1,19 +1,20 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import styled, { createGlobalStyle } from "styled-components";
-import Sidebar from "./components/Sidebar";
-import Nav from "./components/Navbar";
-import DeliverableList from "./components/Deliverables/List";
-import DeliverableCreateForm from "./components/Deliverables/CreateForm";
+import Sidebar from "./components/Reusable/Sidebar";
+import Nav from "./components/Reusable/Navbar";
 
-import TaskList from "./components/Tasks/List";
-import TaskCreateForm from "./components/Tasks/CreateForm";
-import ShowDeliverable from "./components/Deliverables/ShowDeliverable";
+import {
+  DeliverableList,
+  DeliverableCreateForm,
+  ShowDeliverable,
+} from "./components/Deliverables";
+import { TaskList, TaskCreateForm, ShowTask } from "./components/Tasks";
+import {
+  ActionItemList,
+  ActionItemCreateForm,
+  ShowActionItem,
+} from "./components/ActionItems";
 
 const MainFlexBox = styled.div`
   display: grid;
@@ -48,6 +49,7 @@ function App() {
         <Nav />
         <Sidebar />
         <Switch>
+          {/* /////////////////////////////////////// */}
           <Route
             path="/deliverables"
             exact
@@ -63,13 +65,31 @@ function App() {
             exact
             component={() => <ShowDeliverable />}
           />
-
+          {/* /////////////////////////////////////// */}
           <Route path="/tasks" exact component={() => <TaskList />} />
           <Route
             path="/tasks/create"
             exact
             component={() => <TaskCreateForm />}
           />
+          <Route path="/tasks/:id" exact component={() => <ShowTask />} />
+          {/* /////////////////////////////////////// */}
+          <Route
+            path="/action-items"
+            exact
+            component={() => <ActionItemList />}
+          />
+          <Route
+            path="/action-items/create"
+            exact
+            component={() => <ActionItemCreateForm />}
+          />
+          <Route
+            path="/action-items/:id"
+            exact
+            component={() => <ShowActionItem />}
+          />
+          {/* /////////////////////////////////////// */}
           {/* <Redirect from="/" exact to="/deliverables" /> */}
         </Switch>
         <div></div>

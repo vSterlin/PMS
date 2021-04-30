@@ -7,16 +7,16 @@ import Loading from "../Reusable/Loading";
 import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
 
 
-const Task = () => {
-  const [tasks, setTasks] = useState(null);
+const ActionItem = () => {
+  const [actionItems, setActionItems] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("tasks").get();
+      const res = await db.collection("actionItems").get();
 
-      setTasks(
-        res.docs.map((task) => ({
-          ...task.data(),
-          id: task.id,
+      setActionItems(
+        res.docs.map((actionItem) => ({
+          ...actionItem.data(),
+          id: actionItem.id,
         }))
       );
     };
@@ -24,28 +24,28 @@ const Task = () => {
   }, []);
   return (
     <div style={{ position: "relative" }}>
-      <Header>Tasks</Header>
+      <Header>Action Items</Header>
       <ButtonWrapper>
-        <Link to="/tasks/create">
+        <Link to="/actionItems/create">
           {/* <button> */}
           <div>
             <StyledIcon />
-            New Task
+            New Action Item
           </div>
           {/* </button> */}
         </Link>
       </ButtonWrapper>
-      {!tasks && <Loading />}
-      {tasks && tasks.length === 0 && (
-        <p style={{ textAlign: "center" }}>Currently there are no tasks</p>
+      {!actionItems && <Loading />}
+      {actionItems && actionItems.length === 0 && (
+        <p style={{ textAlign: "center" }}>Currently there are no action items</p>
       )}
-      {tasks &&
-        tasks.map((task) => (
+      {actionItems &&
+        actionItems.map((actionItem) => (
           <ItemCard>
-            <ItemName>Task Name - {task.name}</ItemName>
+            <ItemName>Action Item Name - {actionItem.name}</ItemName>
             <ItemDescription>
-              Task Description - {task.description} ***TEMPORARY ID DISPLAY{" "}
-              {task.id}
+              ActionItem Description - {actionItem.description} ***TEMPORARY ID DISPLAY{" "}
+              {actionItem.id}
             </ItemDescription>
             <DetailsLink>Details</DetailsLink>
           </ItemCard>
@@ -54,4 +54,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default ActionItem;

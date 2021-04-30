@@ -1,42 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import styled from "styled-components";
 import db from "../../firebase";
-import Header from "../Header";
-
-const Deliverable = styled.div`
-  padding: 10px 10%;
-
-  color: #6a6a6a;
-  & > * {
-    margin: 20px 0;
-  }
-`;
+import Header from "../Reusable/Header";
+import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
 
 
-const DeliverableDetail = styled.h3`
-  font-weight: lighter;
-`;
-
-const Bolder = styled.span`
-  font-weight: bolder;
-`;
-
-const Button = styled.button`
-  padding: 8px 15px;
-  background-color: ${({darker}) => darker ? "#393535" : "#989898"};
-  color: #FFFFFF;
-  border: none;
-  border-radius: 5px;
-  &:first-of-type{
-    margin-right: 10px;
-  }
-  &:hover{
-    opacity: 0.9;
-  }
-
-
-`;
 
 const ShowDeliverable = () => {
   const history = useHistory();
@@ -64,31 +32,31 @@ const ShowDeliverable = () => {
       {deliverable && (
         <>
           <Header>adsda</Header>
-          <Deliverable>
-            <DeliverableDetail>
+          <Item>
+            <ItemDetail>
               <Bolder>Name: </Bolder> {deliverable.name}
-            </DeliverableDetail>
+            </ItemDetail>
 
-            <DeliverableDetail>
+            <ItemDetail>
               <Bolder>Description: </Bolder>
               {deliverable.description}
-            </DeliverableDetail>
-            <DeliverableDetail>
+            </ItemDetail>
+            <ItemDetail>
               <Bolder>Due Date: </Bolder>
               {deliverable.date}
-            </DeliverableDetail>
-            <DeliverableDetail>
+            </ItemDetail>
+            <ItemDetail>
               <Bolder>Requirement: </Bolder> * NOT PART OF PROJE
-            </DeliverableDetail>
-            <DeliverableDetail>
+            </ItemDetail>
+            <ItemDetail>
               <Bolder>Task: </Bolder>
               {task.name}
-            </DeliverableDetail>
+            </ItemDetail>
 
             <Button darker>Edit</Button>
             <Button onClick={deleteDeliverable}>Delete</Button>
 
-          </Deliverable>
+          </Item>
         </>
       )}
     </div>
