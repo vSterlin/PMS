@@ -9,7 +9,7 @@ import {
   DeliverableCreateForm,
   ShowDeliverable,
 } from "./components/Deliverables";
-import { TaskList, TaskCreateForm, ShowTask } from "./components/Tasks";
+import { TaskList, TaskCreateForm, ShowTask, Gantt } from "./components/Tasks";
 import {
   ActionItemList,
   ActionItemCreateForm,
@@ -71,6 +71,11 @@ function App() {
             path="/tasks/create"
             exact
             component={() => <TaskCreateForm />}
+          />
+                    <Route
+            path="/tasks/gantt"
+            exact
+            component={() => <Gantt />}
           />
           <Route path="/tasks/:id" exact component={() => <ShowTask />} />
           {/* /////////////////////////////////////// */}
