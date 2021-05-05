@@ -38,6 +38,19 @@ const ButtonWrapper = styled.div`
   &:hover {
     opacity: 0.6;
   }
+
+  transition: all 0.1 linear;
+`;
+
+const GanttButtonWrapper = styled.div`
+  position: absolute;
+  left: 10%;
+  display: flex;
+  & > * {
+    &:hover {
+      opacity: 0.6;
+    }
+  }
   transition: all 0.1 linear;
 `;
 
@@ -53,4 +66,5 @@ export {
   DetailsLink,
   ButtonWrapper,
   StyledIcon,
+  GanttButtonWrapper
 };

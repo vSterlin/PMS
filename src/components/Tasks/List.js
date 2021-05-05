@@ -4,8 +4,21 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 
 import Loading from "../Reusable/Loading";
-import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
+import {
+  ItemCard,
+  ItemDescription,
+  ItemName,
+  DetailsLink,
+  ButtonWrapper,
+  StyledIcon,GanttButtonWrapper
+} from "../Reusable/ListItems";
+import { BarChartSteps } from "@styled-icons/bootstrap";
+import styled from "styled-components";
 
+const StyledGraphIcon = styled(BarChartSteps)`
+  height: 20px;
+  margin-right: 10px;
+`;
 
 const Task = () => {
   const [tasks, setTasks] = useState(null);
@@ -25,14 +38,22 @@ const Task = () => {
   return (
     <div style={{ position: "relative" }}>
       <Header>Tasks</Header>
+      <GanttButtonWrapper>
+
+      <Link to="/tasks/gantt" style={{ marginRight: "10px" }}>
+          <div>
+            <StyledGraphIcon />
+            View Gantt Chart
+          </div>
+        </Link>
+      </GanttButtonWrapper>
       <ButtonWrapper>
+
         <Link to="/tasks/create">
-          {/* <button> */}
           <div>
             <StyledIcon />
             New Task
           </div>
-          {/* </button> */}
         </Link>
       </ButtonWrapper>
       {!tasks && <Loading />}
