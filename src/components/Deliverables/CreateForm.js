@@ -65,7 +65,8 @@ const Form = () => {
             value={formik.values.date}
             onChange={formik.handleChange}
             name="date"
-            type="date"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
         </div>
         <div>

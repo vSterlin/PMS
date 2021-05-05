@@ -9,12 +9,19 @@ import {
   DeliverableCreateForm,
   ShowDeliverable,
 } from "./components/Deliverables";
+import {
+  DecisionList,
+  DecisionCreateForm,
+  ShowDecision,
+} from "./components/Decisions";
 import { TaskList, TaskCreateForm, ShowTask, Gantt } from "./components/Tasks";
 import {
   ActionItemList,
   ActionItemCreateForm,
   ShowActionItem,
 } from "./components/ActionItems";
+import { ResourceCreateForm, ResourceList, ShowResource } from "./components/Resources";
+import { IssueCreateForm, IssueList, ShowIssue } from "./components/Issues";
 
 const MainFlexBox = styled.div`
   display: grid;
@@ -23,7 +30,7 @@ const MainFlexBox = styled.div`
 `;
 
 const Global = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); */
   * {
     padding: 0;
     margin: 0;
@@ -72,11 +79,7 @@ function App() {
             exact
             component={() => <TaskCreateForm />}
           />
-                    <Route
-            path="/tasks/gantt"
-            exact
-            component={() => <Gantt />}
-          />
+          <Route path="/tasks/gantt" exact component={() => <Gantt />} />
           <Route path="/tasks/:id" exact component={() => <ShowTask />} />
           {/* /////////////////////////////////////// */}
           <Route
@@ -93,6 +96,58 @@ function App() {
             path="/action-items/:id"
             exact
             component={() => <ShowActionItem />}
+          />
+          {/* /////////////////////////////////////// */}
+          <Route path="/decisions" exact component={() => <DecisionList />} />
+          <Route
+            path="/decisions/create"
+            exact
+            component={() => <DecisionCreateForm />}
+          />
+          <Route
+            path="/decisions/:id"
+            exact
+            component={() => <ShowDecision />}
+          />
+          {/* /////////////////////////////////////// */}
+
+
+          <Route path="/resources" exact component={() => <ResourceList />} />
+          <Route
+            path="/resources/create"
+            exact
+            component={() => <ResourceCreateForm />}
+          />
+          <Route
+            path="/resources/:id"
+            exact
+            component={() => <ShowResource />}
+          />
+          {/* /////////////////////////////////////// */}
+
+          <Route path="/resources" exact component={() => <ResourceList />} />
+          <Route
+            path="/resources/create"
+            exact
+            component={() => <ResourceCreateForm />}
+          />
+          <Route
+            path="/resources/:id"
+            exact
+            component={() => <ShowResource />}
+          />
+          {/* /////////////////////////////////////// */}
+
+          <Route path="/issues" exact component={() => <IssueList />} />
+          <Route
+            path="/issues/create"
+            exact
+            component={() => <IssueCreateForm />}
+          />
+          <Route
+            path="/issues/:id"
+            exact
+            component={() => <ShowIssue />}
           />
           {/* /////////////////////////////////////// */}
           {/* <Redirect from="/" exact to="/deliverables" /> */}

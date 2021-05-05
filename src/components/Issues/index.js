@@ -1,11 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import IssueList from "./List";
+import IssueCreateForm from "./CreateForm";
+import ShowIssue from "./Show";
 
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+export { IssueCreateForm, IssueList, ShowIssue}; 

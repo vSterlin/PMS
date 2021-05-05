@@ -7,16 +7,16 @@ import Loading from "../Reusable/Loading";
 import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
 
 
-const Task = () => {
-  const [tasks, setTasks] = useState(null);
+const Issue = () => {
+  const [issues, setIssues] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("tasks").get();
+      const res = await db.collection("issues").get();
 
-      setTasks(
-        res.docs.map((task) => ({
-          ...task.data(),
-          id: task.id,
+      setIssues(
+        res.docs.map((issue) => ({
+          ...issue.data(),
+          id: issue.id,
         }))
       );
     };
@@ -24,28 +24,28 @@ const Task = () => {
   }, []);
   return (
     <div style={{ position: "relative" }}>
-      <Header>Tasks</Header>
+      <Header>Issues</Header>
       <ButtonWrapper>
-        <Link to="/tasks/create">
+        <Link to="/issues/create">
           {/* <button> */}
           <div>
             <StyledIcon />
-            New Task
+            New Issue
           </div>
           {/* </button> */}
         </Link>
       </ButtonWrapper>
-      {!tasks && <Loading />}
-      {tasks && tasks.length === 0 && (
-        <p style={{ textAlign: "center" }}>Currently there are no tasks</p>
+      {!issues && <Loading />}
+      {issues && issues.length === 0 && (
+        <p style={{ textAlign: "center" }}>Currently there are no issues</p>
       )}
-      {tasks &&
-        tasks.map((task) => (
+      {issues &&
+        issues.map((issue) => (
           <ItemCard>
-            <ItemName>Task Name - {task.name}</ItemName>
+            <ItemName>Issue Name - {issue.name}</ItemName>
             <ItemDescription>
-              Task Description - {task.description} ***TEMPORARY ID DISPLAY{" "}
-              {task.id}
+              Issue Description - {issue.description} ***TEMPORARY ID DISPLAY{" "}
+              {issue.id}
             </ItemDescription>
             <DetailsLink>Details</DetailsLink>
           </ItemCard>
@@ -54,4 +54,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default Issue;

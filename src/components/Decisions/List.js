@@ -7,16 +7,16 @@ import Loading from "../Reusable/Loading";
 import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
 
 
-const Task = () => {
-  const [tasks, setTasks] = useState(null);
+const Decision = () => {
+  const [decisions, setDecisions] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("tasks").get();
+      const res = await db.collection("decisions").get();
 
-      setTasks(
-        res.docs.map((task) => ({
-          ...task.data(),
-          id: task.id,
+      setDecisions(
+        res.docs.map((decision) => ({
+          ...decision.data(),
+          id: decision.id,
         }))
       );
     };
@@ -24,28 +24,28 @@ const Task = () => {
   }, []);
   return (
     <div style={{ position: "relative" }}>
-      <Header>Tasks</Header>
+      <Header>Decisions</Header>
       <ButtonWrapper>
-        <Link to="/tasks/create">
+        <Link to="/decisions/create">
           {/* <button> */}
           <div>
             <StyledIcon />
-            New Task
+            New Decision
           </div>
           {/* </button> */}
         </Link>
       </ButtonWrapper>
-      {!tasks && <Loading />}
-      {tasks && tasks.length === 0 && (
-        <p style={{ textAlign: "center" }}>Currently there are no tasks</p>
+      {!decisions && <Loading />}
+      {decisions && decisions.length === 0 && (
+        <p style={{ textAlign: "center" }}>Currently there are no Decisions</p>
       )}
-      {tasks &&
-        tasks.map((task) => (
+      {decisions &&
+        decisions.map((decision) => (
           <ItemCard>
-            <ItemName>Task Name - {task.name}</ItemName>
+            <ItemName>Decision Name - {decision.name}</ItemName>
             <ItemDescription>
-              Task Description - {task.description} ***TEMPORARY ID DISPLAY{" "}
-              {task.id}
+              Decision Description - {decision.description} ***TEMPORARY ID DISPLAY{" "}
+              {decision.id}
             </ItemDescription>
             <DetailsLink>Details</DetailsLink>
           </ItemCard>
@@ -54,4 +54,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default Decision;

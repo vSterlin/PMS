@@ -33,6 +33,7 @@ const Form = () => {
       name: "",
       type: "",
       description: "",
+      resourceAssigned: "", 
       expectedStartDate: "",
       expectedEndDate: "",
       expectedDuration: "",
@@ -74,6 +75,7 @@ const Form = () => {
             name="type"
           />
         </div>
+
         <div>
           <StyledTextArea
             placeholder="Description"
@@ -81,6 +83,14 @@ const Form = () => {
             onChange={formik.handleChange}
             name="description"
           ></StyledTextArea>
+        </div>
+        <div>
+          <StyledInput
+            placeholder="Resource Assigned"
+            value={formik.values.resourceAssigned}
+            onChange={formik.handleChange}
+            name="resourceAssigned"
+          />
         </div>
         <div>
           <StyledInput

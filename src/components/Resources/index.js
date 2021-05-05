@@ -1,11 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import ResourceList from "./List";
+import ResourceCreateForm from "./CreateForm";
+import ShowResource from "./Show";
 
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+export { ResourceCreateForm, ResourceList, ShowResource}; 

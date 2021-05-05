@@ -3,21 +3,24 @@ import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
 import { Router, useHistory } from "react-router";
-import { StyledForm, StyledInput, StyledSelect, StyledTextArea } from "../Reusable/Form";
-
-
+import {
+  StyledForm,
+  StyledInput,
+  StyledSelect,
+  StyledTextArea,
+} from "../Reusable/Form";
 
 const Form = () => {
   const history = useHistory();
-  const [tasks, setTasks] = useState([]);
+  const [resources, setResources] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const tasks = await db.collection("tasks").get();
-      setTasks(
-        tasks.docs.map((task) => ({
-          ...task.data(),
-          id: task.id,
+      const resources = await db.collection("resources").get();
+      setResources(
+        resources.docs.map((resource) => ({
+          ...resource.data(),
+          id: resource.id,
         }))
       );
     };
@@ -28,20 +31,20 @@ const Form = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      description: "",
-      date: "",
-      requirement: "",
-      task: "",
+      title: "",
+      skill: "",
+      availabilityCalendar: "",
+      payRate: "",
     },
     onSubmit: async (values) => {
-      const res = await db.collection("tasks").add(values);
-      history.push("/tasks");
+      const res = await db.collection("resources").add(values);
+      history.push("/resources");
     },
   });
 
   return (
     <div>
-      <Header>Create New Task</Header>
+      <Header>Create New Resource</Header>
       <StyledForm onSubmit={formik.handleSubmit}>
         <div>
           <StyledInput
@@ -53,157 +56,39 @@ const Form = () => {
         </div>
         <div>
           <StyledInput
-            placeholder="Task Type"
+            placeholder="Title"
             value={formik.values}
             onChange={formik.handleChange}
             name="type"
           />
         </div>
         <div>
-          <StyledTextArea
-            placeholder="Description"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            name="description"
-          ></StyledTextArea>
-        </div>
-        <div>
-          <StyledInput
-            placeholder="Expected Start Date (mm/dd/yy)"
-            value={formik.values.date}
-            onChange={formik.handleChange}
-            name="date"
-            type="date"
-          />
-                    <StyledInput
-            placeholder="Expected End Date (mm/dd/yy)"
-            value={formik.values.date}
-            onChange={formik.handleChange}
-            name="date"
-            type="date"
-          />
-        </div>
-
-        <div>
-          <StyledInput
-            placeholder="Expected Duration"
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          />
-        </div>
-        <div>
-          <StyledInput
-            placeholder="Expected Effort"
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          />
-        </div>
-        <div>
-          <StyledInput
-            placeholder="Actual Start Date (mm/dd/yy)"
-            value={formik.values.date}
-            onChange={formik.handleChange}
-            name="date"
-            type="date"
-          />
-                    <StyledInput
-            placeholder="Actual End Date (mm/dd/yy)"
-            value={formik.values.date}
-            onChange={formik.handleChange}
-            name="date"
-            type="date"
-          />
-        </div>
-
-        <div>
-          <StyledInput
-            placeholder="Actual Duration"
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          />
-        </div>
-        <div>
-          <StyledInput
-            placeholder="Effort Completed"
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          />
-        </div>
-        <div>
-          <StyledInput
-            placeholder="Actual Effort"
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          />
-        </div>
-
-        <div>
-          <StyledInput
-            placeholder="Percent Completed"
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          />
-        </div>
-
-        <div>
           <StyledSelect
-            value={formik.values}
+            value={formik.values.skill}
             onChange={formik.handleChange}
-            name=""
+            name="skill"
           >
-            <option value="" label="Predecessor Tasks" />
-            {tasks.map((task) => (
-              <option value={task.id} label={task.name} />
+            <option value="" label="List of Skills" />
+            {resources.map((resource) => (
+              <option value={resource.id} label={resource.name} />
             ))}
           </StyledSelect>
         </div>
 
         <div>
-          <StyledSelect
-            value={formik.values}
+          <StyledInput
+            placeholder="Availabilty Calendar (mm/dd/yy)"
+            value={formik.values.availabilityCalendar}
             onChange={formik.handleChange}
-            name=""
-          >
-            <option value="" label="Successor Tasks" />
-            {tasks.map((task) => (
-              <option value={task.id} label={task.name} />
-            ))}
-          </StyledSelect>
-        </div>
-
-        <div>
-          <StyledSelect
-            value={formik.values}
+            name="availabilityCalendar"
+          />
+          <StyledInput
+            placeholder="Pay Rate"
+            value={formik.values.payRate}
             onChange={formik.handleChange}
-            name=""
-          >
-            <option value="" label="List of Issues" />
-            {tasks.map((task) => (
-              <option value={task.id} label={task.name} />
-            ))}
-          </StyledSelect>
+            name="payRate"
+          />
         </div>
-
-        <div>
-          <StyledSelect
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          >
-            <option value="" label="List of Decisions" />
-            {tasks.map((task) => (
-              <option value={task.id} label={task.name} />
-            ))}
-          </StyledSelect>
-        </div>
-
-
 
         <div>
           <button>Submit</button>

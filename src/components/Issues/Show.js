@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import db from '../../firebase';
 
 const ShowDeliverable = ({id}) => {
   const [deliverables, setDeliverable] = useState(null);

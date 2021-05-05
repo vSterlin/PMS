@@ -7,16 +7,16 @@ import Loading from "../Reusable/Loading";
 import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
 
 
-const Task = () => {
-  const [tasks, setTasks] = useState(null);
+const Resource = () => {
+  const [resources, setResources] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("tasks").get();
+      const res = await db.collection("resources").get();
 
-      setTasks(
-        res.docs.map((task) => ({
-          ...task.data(),
-          id: task.id,
+      setResources(
+        res.docs.map((resource) => ({
+          ...resource.data(),
+          id: resource.id,
         }))
       );
     };
@@ -24,28 +24,28 @@ const Task = () => {
   }, []);
   return (
     <div style={{ position: "relative" }}>
-      <Header>Tasks</Header>
+      <Header>Resources</Header>
       <ButtonWrapper>
-        <Link to="/tasks/create">
+        <Link to="/resources/create">
           {/* <button> */}
           <div>
             <StyledIcon />
-            New Task
+            New Resource
           </div>
           {/* </button> */}
         </Link>
       </ButtonWrapper>
-      {!tasks && <Loading />}
-      {tasks && tasks.length === 0 && (
-        <p style={{ textAlign: "center" }}>Currently there are no tasks</p>
+      {!resources && <Loading />}
+      {resources && resources.length === 0 && (
+        <p style={{ textAlign: "center" }}>Currently there are no resources</p>
       )}
-      {tasks &&
-        tasks.map((task) => (
+      {resources &&
+        resources.map((resource) => (
           <ItemCard>
-            <ItemName>Task Name - {task.name}</ItemName>
+            <ItemName>Resource Name - {resource.name}</ItemName>
             <ItemDescription>
-              Task Description - {task.description} ***TEMPORARY ID DISPLAY{" "}
-              {task.id}
+              Resource Description - {resource.description} ***TEMPORARY ID DISPLAY{" "}
+              {resource.id}
             </ItemDescription>
             <DetailsLink>Details</DetailsLink>
           </ItemCard>
@@ -54,4 +54,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default Resource;

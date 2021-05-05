@@ -26,7 +26,7 @@ const ActionItem = () => {
     <div style={{ position: "relative" }}>
       <Header>Action Items</Header>
       <ButtonWrapper>
-        <Link to="/actionItems/create">
+        <Link to="/action-items/create">
           {/* <button> */}
           <div>
             <StyledIcon />
@@ -37,7 +37,7 @@ const ActionItem = () => {
       </ButtonWrapper>
       {!actionItems && <Loading />}
       {actionItems && actionItems.length === 0 && (
-        <p style={{ textAlign: "center" }}>Currently there are no action items</p>
+        <p style={{ textAlign: "center" }}>Currently there are no Action Items</p>
       )}
       {actionItems &&
         actionItems.map((actionItem) => (
