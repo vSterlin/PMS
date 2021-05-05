@@ -63,6 +63,8 @@ const Form = () => {
       // referenceDocument: "",
     },
     validationSchema,
+    validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: async (values) => {
       const res = await db.collection("decisions").add(values);
       history.push("/decisions");
@@ -70,7 +72,9 @@ const Form = () => {
   });
 
   const { errors } = formik;
-{console.log(errors)}
+  {
+    console.log(errors);
+  }
   return (
     <div>
       <Header>Create New Decision</Header>

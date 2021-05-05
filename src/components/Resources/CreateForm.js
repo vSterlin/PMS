@@ -51,6 +51,8 @@ const Form = () => {
       availabilityCalendar: "",
       payRate: "",
     },
+    validateOnBlur: false,
+    validateOnChange: false,
     validationSchema,
     onSubmit: async (values) => {
       const res = await db.collection("resources").add(values);
