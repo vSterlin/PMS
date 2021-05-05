@@ -1,20 +1,137 @@
-import React, { useEffect, useState } from 'react'
-import db from '../../firebase';
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
+import db from "../../firebase";
+import Header from "../Reusable/Header";
+import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
 
-const ShowDeliverable = ({id}) => {
-  const [deliverables, setDeliverable] = useState(null);
+const ShowTask = () => {
+  const history = useHistory();
+  const [task, setTask] = useState(null);
+  const [predecessorTask, setPredecessorTask] = useState("");
+  const [successorTask, setSuccessorTask] = useState("");
+
+  const { id } = useParams();
+  console.log(id);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("deliverables").get();
-
+      const res = await db.collection("tasks").doc(id).get();
+      setTask(res.data());
+      if (res.data().predecessorTask) {
+        const predecessorTask = await res.data().predecessorTask.get();
+        setPredecessorTask(predecessorTask.data());
+      }
+      if (res.data().successorTask) {
+        const successorTask = await res.data().successorTask.get();
+        setSuccessorTask(successorTask.data());
+      }
     };
     fetchData();
   }, []);
+
+  const deleteTask = async () => {
+    await db.collection("tasks").doc(id).delete();
+    history.push("/tasks");
+  };
   return (
     <div>
-      
-    </div>
-  )
-}
+      {task && (
+        <>
+          <Header>{task.name}</Header>
+          <Item>
+            <ItemDetail>
+              <Bolder>Name: </Bolder> {task.name}
+            </ItemDetail>
+            <ItemDetail>
+              <Bolder>Type: </Bolder>
+              {task.type || "..."}
+            </ItemDetail>
 
-export default ShowDeliverable
+            <ItemDetail>
+              <Bolder>Description: </Bolder>
+              {task.description || "..."}
+            </ItemDetail>
+            <ItemDetail>
+              <Bolder>Resource: </Bolder>
+              {task.resource || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Expected Start Date: </Bolder>
+              {task.expectedStartDate || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Expected End Date: </Bolder>
+              {task.actualEndDate || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Expected Duration: </Bolder>
+              {task.expectedDuration || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Expected Effort: </Bolder>
+              {task.expectedEffort || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Actual Start Date: </Bolder>
+              {task.actualStartDate || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Actual End Date: </Bolder>
+              {task.actualEndDate || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Actual Duration: </Bolder>
+              {task.actualDuration || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Effort Completed: </Bolder>
+              {task.effortCompleted || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Actual Effort: </Bolder>
+              {task.actualEffort || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Percent Completed: </Bolder>
+              {task.percentComplete || "..."}%
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Predecessor Task: </Bolder>
+              {task.predecessorTask || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>Successor Task: </Bolder>
+              {task.successorTask || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>List of Issues: </Bolder>
+              {task.issues || "..."}
+            </ItemDetail>
+
+            <ItemDetail>
+              <Bolder>List of Decisions: </Bolder>
+              {task.decisions || "..."}
+            </ItemDetail>
+
+            <Button darker>Edit</Button>
+            <Button onClick={deleteTask}>Delete</Button>
+          </Item>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default ShowTask;

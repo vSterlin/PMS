@@ -47,7 +47,7 @@ const Task = () => {
               Task Description - {task.description} ***TEMPORARY ID DISPLAY{" "}
               {task.id}
             </ItemDescription>
-            <DetailsLink>Details</DetailsLink>
+            <DetailsLink to={`/tasks/${task.id}`}>Details</DetailsLink>
           </ItemCard>
         ))}
     </div>

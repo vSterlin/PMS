@@ -12,21 +12,21 @@ import {
 
 const Form = () => {
   const history = useHistory();
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // const tasks = await db.collection("tasks").get();
-      // setTasks(
-      //   tasks.docs.map((task) => ({
-      //     ...task.data(),
-      //     id: task.id,
-      //   }))
-      // );
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // const tasks = await db.collection("tasks").get();
+  //     // setTasks(
+  //     //   tasks.docs.map((task) => ({
+  //     //     ...task.data(),
+  //     //     id: task.id,
+  //     //   }))
+  //     // );
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -39,7 +39,7 @@ const Form = () => {
       actualCompletionDate: "",
       meetingNotes: "",
       status: "",
-      referenceDocument: "",
+      // referenceDocument: "",
     },
     onSubmit: async (values) => {
       const res = await db.collection("decisions").add(values);
@@ -132,10 +132,11 @@ const Form = () => {
             name="status"
           />
           <StyledInput
-            placeholder="List of Reference Documents"
+            placeholder="List of Reference Documents (Not part of the project)"
             value={formik.values.referenceDocument}
             onChange={formik.handleChange}
             name="referenceDocument"
+            disabled
           />
         </div>
 

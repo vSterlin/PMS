@@ -12,15 +12,39 @@ import {
 
 const Form = () => {
   const history = useHistory();
+  const [resources, setResources] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [issues, setIssues] = useState([]);
+  const [decisions, setDecisions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
+      const resources = await db.collection("resources").get();
+      setResources(
+        resources.docs.map((resource) => ({
+          ...resource.data(),
+          id: resource.id,
+        }))
+      );
       const tasks = await db.collection("tasks").get();
       setTasks(
         tasks.docs.map((task) => ({
           ...task.data(),
           id: task.id,
+        }))
+      );
+      const issues = await db.collection("issues").get();
+      setIssues(
+        issues.docs.map((issue) => ({
+          ...issue.data(),
+          id: issue.id,
+        }))
+      );
+      const decisions = await db.collection("decisions").get();
+      setDecisions(
+        decisions.docs.map((decision) => ({
+          ...decision.data(),
+          id: decision.id,
         }))
       );
     };
@@ -33,7 +57,7 @@ const Form = () => {
       name: "",
       type: "",
       description: "",
-      resourceAssigned: "", 
+      resourceAssigned: "",
       expectedStartDate: "",
       expectedEndDate: "",
       expectedDuration: "",
@@ -85,12 +109,16 @@ const Form = () => {
           ></StyledTextArea>
         </div>
         <div>
-          <StyledInput
-            placeholder="Resource Assigned"
+          <StyledSelect
             value={formik.values.resourceAssigned}
             onChange={formik.handleChange}
             name="resourceAssigned"
-          />
+          >
+            <option value="" label="Resource Assigned" />
+            {resources.map((resource) => (
+              <option value={resource.id} label={resource.name} />
+            ))}
+          </StyledSelect>
         </div>
         <div>
           <StyledInput
@@ -213,8 +241,8 @@ const Form = () => {
             name="issues"
           >
             <option value="" label="List of Issues" />
-            {tasks.map((task) => (
-              <option value={task.id} label={task.name} />
+            {issues.map((issue) => (
+              <option value={issue.id} label={issue.name} />
             ))}
           </StyledSelect>
         </div>
@@ -226,8 +254,8 @@ const Form = () => {
             name="decisions"
           >
             <option value="" label="List of Decisions" />
-            {tasks.map((task) => (
-              <option value={task.id} label={task.name} />
+            {decisions.map((decision) => (
+              <option value={decision.id} label={decisions.name} />
             ))}
           </StyledSelect>
         </div>
