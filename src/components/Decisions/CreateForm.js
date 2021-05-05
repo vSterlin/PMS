@@ -3,17 +3,51 @@ import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
 import { Router, useHistory } from "react-router";
+import * as Yup from "yup";
 import {
   StyledForm,
   StyledInput,
+  StyledInputWrapper,
   StyledSelect,
   StyledTextArea,
 } from "../Reusable/Form";
 
+const validationSchema = Yup.object({
+  name: Yup.string().required(),
+  description: Yup.string().required(),
+  priority: Yup.string().required(),
+  impact: Yup.string().required(),
+  dateNeeded: Yup.string().required(),
+  expectedCompletionDate: Yup.string().required(),
+  // actualCompletionDate: Yup.string().required(),
+  // meetingNotes: Yup.string().required(),
+  status: Yup.string().required(),
+  // referenceDo
+});
+
 const Form = () => {
   const history = useHistory();
 
-  
+  const [priorities, setPriorities] = useState([]);
+  const [impacts, setImpacts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const priorities = await db
+        .collection("lists")
+        .where("name", "==", "priority")
+        .get();
+      setPriorities(priorities.docs[0].data().values);
+
+      const impacts = await db
+        .collection("lists")
+        .where("name", "==", "impact")
+        .get();
+      setImpacts(impacts.docs[0].data().values);
+    };
+
+    fetchData();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -28,50 +62,62 @@ const Form = () => {
       status: "",
       // referenceDocument: "",
     },
+    validationSchema,
     onSubmit: async (values) => {
       const res = await db.collection("decisions").add(values);
       history.push("/decisions");
     },
   });
 
+  const { errors } = formik;
+{console.log(errors)}
   return (
     <div>
       <Header>Create New Decision</Header>
       <StyledForm onSubmit={formik.handleSubmit}>
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Name"
             value={formik.values.name}
             onChange={formik.handleChange}
             name="name"
           />
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.description}>
           <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
             onChange={formik.handleChange}
             name="description"
           ></StyledTextArea>
-        </div>
-        <div>
-          <StyledInput
-            placeholder="Priority"
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.priority}>
+          <StyledSelect
             value={formik.values.priority}
             onChange={formik.handleChange}
             name="priority"
-          />
-        </div>
-        <div>
-          <StyledInput
-            placeholder="Impact"
+          >
+            <option value="" label="Priority" />
+            {priorities.map((priority) => (
+              <option value={priority} label={priority} />
+            ))}
+          </StyledSelect>
+        </StyledInputWrapper>
+
+        <StyledInputWrapper error={!!errors.impact}>
+          <StyledSelect
             value={formik.values.impact}
             onChange={formik.handleChange}
             name="impact"
-          />
-        </div>
-        <div>
+          >
+            <option value="" label="Impact" />
+            {impacts.map((impact) => (
+              <option value={impact} label={impact} />
+            ))}
+          </StyledSelect>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.dateNeeded}>
           <StyledInput
             placeholder="Date Needed (mm/dd/yy)"
             value={formik.values.dateNeeded}
@@ -80,9 +126,9 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.expectedCompletionDate}>
           <StyledInput
             placeholder="Expected Completion Date (mm/dd/yy)"
             value={formik.values.expectedCompletionDate}
@@ -91,8 +137,8 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.actualCompletionDate}>
           <StyledInput
             placeholder="Actual Completion Date (mm/dd/yy)"
             value={formik.values.actualCompletionDate}
@@ -101,17 +147,17 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.meetingNotes}>
           <StyledInput
             placeholder="List of Meeting Notes"
             value={formik.values.meetingNotes}
             onChange={formik.handleChange}
             name="meetingNotes"
           />
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.status}>
           <StyledInput
             placeholder="Status"
             value={formik.values.status}
@@ -125,7 +171,7 @@ const Form = () => {
             name="referenceDocument"
             disabled
           />
-        </div>
+        </StyledInputWrapper>
 
         <div>
           <button>Submit</button>

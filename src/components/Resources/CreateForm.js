@@ -3,12 +3,27 @@ import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
 import { Router, useHistory } from "react-router";
+import * as Yup from "yup";
 import {
   StyledForm,
   StyledInput,
+  StyledInputWrapper,
   StyledSelect,
-  StyledTextArea,
 } from "../Reusable/Form";
+import styled from "styled-components";
+
+const Error = styled.span`
+  font-size: 0.5em;
+  color: red;
+`;
+
+const validationSchema = Yup.object({
+  name: Yup.string().required(),
+  title: Yup.string().required(),
+  skill: Yup.string().required(),
+  availabilityCalendar: Yup.string().required(),
+  payRate: Yup.string().required(),
+});
 
 const Form = () => {
   const history = useHistory();
@@ -36,33 +51,37 @@ const Form = () => {
       availabilityCalendar: "",
       payRate: "",
     },
+    validationSchema,
     onSubmit: async (values) => {
       const res = await db.collection("resources").add(values);
       history.push("/resources");
     },
   });
 
+  const { errors } = formik;
+
   return (
     <div>
+      {formik.errors !== {} && console.log(formik.errors)}
       <Header>Create New Resource</Header>
       <StyledForm onSubmit={formik.handleSubmit}>
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Name"
             value={formik.values.name}
             onChange={formik.handleChange}
             name="name"
           />
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.title}>
           <StyledInput
             placeholder="Title"
             value={formik.values.title}
             onChange={formik.handleChange}
             name="title"
           />
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.skill}>
           <StyledSelect
             value={formik.values.skill}
             onChange={formik.handleChange}
@@ -73,9 +92,9 @@ const Form = () => {
               <option value={resource.id} label={resource.name} />
             ))}
           </StyledSelect>
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.availabilityCalendar}>
           <StyledInput
             placeholder="Availabilty Calendar (mm/dd/yy)"
             value={formik.values.availabilityCalendar}
@@ -84,16 +103,18 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.payRate}>
           <StyledInput
             placeholder="Pay Rate"
             value={formik.values.payRate}
             onChange={formik.handleChange}
             name="payRate"
           />
-        </div>
+        </StyledInputWrapper>
 
         <div>
-          <button>Submit</button>
+          <button type="submit">Submit</button>
         </div>
       </StyledForm>
     </div>

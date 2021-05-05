@@ -16,6 +16,22 @@ const StyledInput = styled.input`
   margin-bottom: 10px;
 `;
 
+const before = `
+&> * {
+  border-width: 1px;
+  border-radius: 3px; 
+  border-color: red;
+}
+&:before{
+  content: 'Required';
+  color: red;
+  font-size: 10px;
+}`;
+
+const StyledInputWrapper = styled.div`
+  ${({ error }) => (error ? before : null)}
+`;
+
 const StyledTextArea = styled.textarea`
   width: 100%;
   height: 200px;
@@ -29,4 +45,10 @@ const StyledSelect = styled.select`
   padding: 5px;
 `;
 
-export { StyledForm, StyledInput, StyledTextArea, StyledSelect };
+export {
+  StyledForm,
+  StyledInput,
+  StyledTextArea,
+  StyledSelect,
+  StyledInputWrapper,
+};
