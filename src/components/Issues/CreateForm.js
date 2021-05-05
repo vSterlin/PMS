@@ -12,15 +12,25 @@ import {
 
 const Form = () => {
   const history = useHistory();
-  const [issues, setIssues] = useState([]);
+  const [actionItems, setActionItems] = useState([]);
+
+  const [decisions, setDecisions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const issues = await db.collection("issues").get();
-      setIssues(
-        issues.docs.map((issue) => ({
-          ...issue.data(),
-          id: issue.id,
+      const actionItems = await db.collection("action-items").get();
+      setActionItems(
+        actionItems.docs.map((actionItem) => ({
+          ...actionItem.data(),
+          id: actionItem.id,
+        }))
+      );
+
+      const decisions = await db.collection("decisions").get();
+      setDecisions(
+        decisions.docs.map((decision) => ({
+          ...decision.data(),
+          id: decision.id,
         }))
       );
     };
@@ -121,21 +131,31 @@ const Form = () => {
             name="status"
           />
         </div>
+
         <div>
-          <StyledInput
-            placeholder="List of Action Items"
+          <StyledSelect
             value={formik.values.actionItem}
             onChange={formik.handleChange}
             name="actionItem"
-          />
+          >
+            <option value="" label="List of Action Items" />
+            {actionItems.map((actionItem) => (
+              <option value={actionItem.id} label={actionItem.name} />
+            ))}
+          </StyledSelect>
         </div>
+
         <div>
-          <StyledInput
-            placeholder="List of Decisions"
+          <StyledSelect
             value={formik.values.decision}
             onChange={formik.handleChange}
             name="decision"
-          />
+          >
+            <option value="" label="List of Decisions" />
+            {decisions.map((decision) => (
+              <option value={decision.id} label={decision.name} />
+            ))}
+          </StyledSelect>
         </div>
 
         <div>

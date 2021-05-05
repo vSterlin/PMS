@@ -74,6 +74,17 @@ const Form = () => {
       decisions: "",
     },
     onSubmit: async (values) => {
+      if (values.resourceAssigned !== "") {
+        values.resourceAssigned = db.doc(
+          `resources/${values.resourceAssigned}/`
+        );
+      }
+      if (values.predecessorTask !== "") {
+        values.predecessorTask = db.doc(`tasks/${values.predecessorTask}/`);
+      }
+      if (values.successorTask !== "") {
+        values.successorTask = db.doc(`tasks/${values.successorTask}/`);
+      }
       const res = await db.collection("tasks").add(values);
       history.push("/tasks");
     },

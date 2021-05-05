@@ -57,9 +57,9 @@ const Form = () => {
         <div>
           <StyledInput
             placeholder="Title"
-            value={formik.values}
+            value={formik.values.title}
             onChange={formik.handleChange}
-            name="type"
+            name="title"
           />
         </div>
         <div>
@@ -81,6 +81,8 @@ const Form = () => {
             value={formik.values.availabilityCalendar}
             onChange={formik.handleChange}
             name="availabilityCalendar"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
           <StyledInput
             placeholder="Pay Rate"

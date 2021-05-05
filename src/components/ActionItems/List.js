@@ -4,14 +4,20 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 
 import Loading from "../Reusable/Loading";
-import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
-
+import {
+  ItemCard,
+  ItemDescription,
+  ItemName,
+  DetailsLink,
+  ButtonWrapper,
+  StyledIcon,
+} from "../Reusable/ListItems";
 
 const ActionItem = () => {
   const [actionItems, setActionItems] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("actionItems").get();
+      const res = await db.collection("action-items").get();
 
       setActionItems(
         res.docs.map((actionItem) => ({
@@ -37,17 +43,21 @@ const ActionItem = () => {
       </ButtonWrapper>
       {!actionItems && <Loading />}
       {actionItems && actionItems.length === 0 && (
-        <p style={{ textAlign: "center" }}>Currently there are no Action Items</p>
+        <p style={{ textAlign: "center" }}>
+          Currently there are no Action Items
+        </p>
       )}
       {actionItems &&
         actionItems.map((actionItem) => (
           <ItemCard>
             <ItemName>Action Item Name - {actionItem.name}</ItemName>
             <ItemDescription>
-              ActionItem Description - {actionItem.description} ***TEMPORARY ID DISPLAY{" "}
-              {actionItem.id}
+              ActionItem Description - {actionItem.description} ***TEMPORARY ID
+              DISPLAY {actionItem.id}
             </ItemDescription>
-            <DetailsLink>Details</DetailsLink>
+            <DetailsLink to={`/action-items/${actionItem.id}`}>
+              Details
+            </DetailsLink>
           </ItemCard>
         ))}
     </div>

@@ -107,12 +107,12 @@ const ShowTask = () => {
 
             <ItemDetail>
               <Bolder>Predecessor Task: </Bolder>
-              {task.predecessorTask || "..."}
+              {predecessorTask.name || "..."}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Successor Task: </Bolder>
-              {task.successorTask || "..."}
+              {successorTask.name || "..."}
             </ItemDetail>
 
             <ItemDetail>

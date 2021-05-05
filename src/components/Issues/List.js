@@ -47,7 +47,7 @@ const Issue = () => {
               Issue Description - {issue.description} ***TEMPORARY ID DISPLAY{" "}
               {issue.id}
             </ItemDescription>
-            <DetailsLink>Details</DetailsLink>
+            <DetailsLink to={`/issues/${issue.id}`}>Details</DetailsLink>
           </ItemCard>
         ))}
     </div>

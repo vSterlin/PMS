@@ -4,8 +4,14 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 
 import Loading from "../Reusable/Loading";
-import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
-
+import {
+  ItemCard,
+  ItemDescription,
+  ItemName,
+  DetailsLink,
+  ButtonWrapper,
+  StyledIcon,
+} from "../Reusable/ListItems";
 
 const Decision = () => {
   const [decisions, setDecisions] = useState(null);
@@ -44,10 +50,10 @@ const Decision = () => {
           <ItemCard>
             <ItemName>Decision Name - {decision.name}</ItemName>
             <ItemDescription>
-              Decision Description - {decision.description} ***TEMPORARY ID DISPLAY{" "}
-              {decision.id}
+              Decision Description - {decision.description} ***TEMPORARY ID
+              DISPLAY {decision.id}
             </ItemDescription>
-            <DetailsLink>Details</DetailsLink>
+            <DetailsLink to={`/decisions/${decision.id}`}>Details</DetailsLink>
           </ItemCard>
         ))}
     </div>

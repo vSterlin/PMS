@@ -12,12 +12,17 @@ import {
 
 const Form = () => {
   const history = useHistory();
-  // const [tasks, setTasks] = useState([]);
+  const [resources, setResources] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-
-
+      const resources = await db.collection("resources").get();
+      setResources(
+        resources.docs.map((resource) => ({
+          ...resource.data(),
+          id: resource.id,
+        }))
+      );
       // const tasks = await db.collection("tasks").get();
       // setActionItems(
       //   tasks.docs.map((task) => ({
@@ -43,6 +48,7 @@ const Form = () => {
     },
     onSubmit: async (values) => {
       values.updateDate = new Date().toDateString();
+      values.resourceAssigned = db.doc(`resources/${values.resourceAssigned}/`);
       const res = await db.collection("action-items").add(values);
       history.push("/action-items");
     },
@@ -77,14 +83,19 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-          <StyledInput
-            placeholder="Resource Assigned"
+        </div>{" "}
+        <div>
+          <StyledSelect
             value={formik.values.resourceAssigned}
             onChange={formik.handleChange}
             name="resourceAssigned"
-          />
+          >
+            <option value="" label="Resource Assigned" />
+            {resources.map((resource) => (
+              <option value={resource.id} label={resource.name} />
+            ))}
+          </StyledSelect>
         </div>
-
         <div>
           <StyledInput
             placeholder="Expected Completion Date"
@@ -105,7 +116,6 @@ const Form = () => {
             onBlur={(e) => (e.target.type = "text")}
           />
         </div>
-
         {/* <div>
           <StyledSelect
             value={formik.values}

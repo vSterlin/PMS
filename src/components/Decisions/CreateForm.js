@@ -12,21 +12,8 @@ import {
 
 const Form = () => {
   const history = useHistory();
-  // const [tasks, setTasks] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // const tasks = await db.collection("tasks").get();
-  //     // setTasks(
-  //     //   tasks.docs.map((task) => ({
-  //     //     ...task.data(),
-  //     //     id: task.id,
-  //     //   }))
-  //     // );
-  //   };
-
-  //   fetchData();
-  // }, []);
+  
 
   const formik = useFormik({
     initialValues: {
@@ -97,7 +84,7 @@ const Form = () => {
 
         <div>
           <StyledInput
-            placeholder="Expected Completion Date"
+            placeholder="Expected Completion Date (mm/dd/yy)"
             value={formik.values.expectedCompletionDate}
             onChange={formik.handleChange}
             name="expectedCompletionDate"
@@ -107,7 +94,7 @@ const Form = () => {
         </div>
         <div>
           <StyledInput
-            placeholder="Actual Completion Date"
+            placeholder="Actual Completion Date (mm/dd/yy)"
             value={formik.values.actualCompletionDate}
             onChange={formik.handleChange}
             name="actualCompletionDate"
