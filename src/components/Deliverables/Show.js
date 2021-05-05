@@ -31,7 +31,7 @@ const ShowDeliverable = () => {
     <div>
       {deliverable && (
         <>
-          <Header>adsda</Header>
+          <Header>{deliverable.name}</Header>
           <Item>
             <ItemDetail>
               <Bolder>Name: </Bolder> {deliverable.name}
