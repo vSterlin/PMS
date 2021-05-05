@@ -50,7 +50,8 @@ const ShowDeliverable = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Task: </Bolder>
-              {task.name}
+              {!task && "Doesn't exist"}
+              {task && task.name}
             </ItemDetail>
 
             <Button darker>Edit</Button>
