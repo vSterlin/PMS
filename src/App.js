@@ -14,7 +14,7 @@ import {
   DecisionCreateForm,
   ShowDecision,
 } from "./components/Decisions";
-import { TaskList, TaskCreateForm, ShowTask, Gantt } from "./components/Tasks";
+import { TaskList, TaskCreateForm, ShowTask, Gantt, TaskEditForm } from "./components/Tasks";
 import {
   ActionItemList,
   ActionItemCreateForm,
@@ -85,6 +85,8 @@ function App() {
             component={() => <TaskCreateForm />}
           />
           <Route path="/tasks/gantt" exact component={() => <Gantt />} />
+          <Route path="/tasks/:id/edit" exact component={() => <TaskEditForm />} />
+
           <Route path="/tasks/:id" exact component={() => <ShowTask />} />
           {/* /////////////////////////////////////// */}
           <Route

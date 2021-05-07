@@ -46,7 +46,7 @@ const Form = () => {
     initialValues: {
       name: "",
       title: "",
-      skill: "",
+      // skill: "",
       availabilityCalendar: "",
       payRate: "",
     },

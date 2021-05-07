@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
@@ -15,7 +16,7 @@ const ShowTask = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("tasks").doc(id).get();
-      setTask(res.data());
+      setTask({...res.data(), id: res.id});
       if (res.data().predecessorTask) {
         const predecessorTask = await res.data().predecessorTask.get();
         setPredecessorTask(predecessorTask.data());
@@ -125,11 +126,14 @@ const ShowTask = () => {
               {task.decisions || "..."}
             </ItemDetail>
 
-            <Button darker>Edit</Button>
+            <Link to={`/tasks/${task.id}/edit`}>
+              <Button darker>Edit</Button>
+            </Link>
             <Button onClick={deleteTask}>Delete</Button>
           </Item>
         </>
       )}
+
     </div>
   );
 };

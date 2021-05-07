@@ -20,7 +20,7 @@ import {
 const validationSchema = Yup.object({
   name: Yup.string().required(),
   title: Yup.string().required(),
-  skill: Yup.string().required(),
+  // skill: Yup.string().required(),
   availabilityCalendar: Yup.string().required(),
   payRate: Yup.string().required(),
 });
