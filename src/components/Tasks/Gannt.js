@@ -3,9 +3,9 @@ import db from "../../firebase";
 import { Chart } from "react-google-charts";
 import styled from "styled-components";
 const Gannt = () => {
-  function daysToMilliseconds(days) {
-    return days * 24 * 60 * 60 * 1000;
-  }
+  // function daysToMilliseconds(days) {
+  //   return days * 24 * 60 * 60 * 1000;
+  // }
   const columns = [
     { type: "string", label: "Task ID" },
     { type: "string", label: "Task Name" },

@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
 
-
-
 const ShowResource = () => {
   const history = useHistory();
   const [resource, setResource] = useState(null);
-
 
   const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("resources").doc(id).get();
-      setResource(res.data());
+      setResource({ ...res.data(), id: res.id });
     };
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const deleteResource = async () => {
     await db.collection("resources").doc(id).delete();
@@ -29,6 +27,7 @@ const ShowResource = () => {
     <div>
       {resource && (
         <>
+          {console.log(resource)}
           <Header>{resource.name}</Header>
           <Item>
             <ItemDetail>
@@ -53,8 +52,9 @@ const ShowResource = () => {
               <Bolder>Pay Rate: </Bolder>
               {resource.payRate} $
             </ItemDetail>
-
-            <Button darker>Edit</Button>
+            <Link to={`/resources/${resource.id}/edit`}>
+              <Button darker>Edit</Button>
+            </Link>
             <Button onClick={deleteResource}>Delete</Button>
           </Item>
         </>

@@ -26,7 +26,7 @@ const ShowTask = () => {
       }
     };
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const deleteTask = async () => {
     await db.collection("tasks").doc(id).delete();

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React  from "react";
 import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
-import { Router, useHistory } from "react-router";
+import {  useHistory } from "react-router";
 import * as Yup from "yup";
 import {
   StyledForm,
@@ -10,12 +10,12 @@ import {
   StyledInputWrapper,
   StyledSelect,
 } from "../Reusable/Form";
-import styled from "styled-components";
+// import styled from "styled-components";
 
-const Error = styled.span`
-  font-size: 0.5em;
-  color: red;
-`;
+// const Error = styled.span`
+//   font-size: 0.5em;
+//   color: red;
+// `;
 
 const validationSchema = Yup.object({
   name: Yup.string().required(),
@@ -27,21 +27,6 @@ const validationSchema = Yup.object({
 
 const Form = () => {
   const history = useHistory();
-  const [resources, setResources] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const resources = await db.collection("resources").get();
-      setResources(
-        resources.docs.map((resource) => ({
-          ...resource.data(),
-          id: resource.id,
-        }))
-      );
-    };
-
-    fetchData();
-  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -55,7 +40,8 @@ const Form = () => {
     validateOnChange: false,
     validationSchema,
     onSubmit: async (values) => {
-      const res = await db.collection("resources").add(values);
+      // const res = await db.collection("resources").add(values);
+      await db.collection("resources").add(values);
       history.push("/resources");
     },
   });
@@ -90,9 +76,9 @@ const Form = () => {
             name="skill"
           >
             <option value="" label="List of Skills" />
-            {resources.map((resource) => (
+            {/* {resources.map((resource) => (
               <option value={resource.id} label={resource.name} />
-            ))}
+            ))} */}
           </StyledSelect>
         </StyledInputWrapper>
 

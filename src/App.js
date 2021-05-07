@@ -20,7 +20,12 @@ import {
   ActionItemCreateForm,
   ShowActionItem,
 } from "./components/ActionItems";
-import { ResourceCreateForm, ResourceList, ShowResource } from "./components/Resources";
+import {
+  ResourceCreateForm,
+  ResourceEditForm,
+  ResourceList,
+  ShowResource,
+} from "./components/Resources";
 import { IssueCreateForm, IssueList, ShowIssue } from "./components/Issues";
 
 const MainFlexBox = styled.div`
@@ -111,7 +116,6 @@ function App() {
           />
           {/* /////////////////////////////////////// */}
 
-
           <Route path="/resources" exact component={() => <ResourceList />} />
           <Route
             path="/resources/create"
@@ -119,13 +123,19 @@ function App() {
             component={() => <ResourceCreateForm />}
           />
           <Route
+            path="/resources/:id/edit"
+            exact
+            component={() => <ResourceEditForm />}
+          />
+          <Route
             path="/resources/:id"
             exact
             component={() => <ShowResource />}
           />
+
           {/* /////////////////////////////////////// */}
 
-          <Route path="/resources" exact component={() => <ResourceList />} />
+          {/* <Route path="/resources" exact component={() => <ResourceList />} />
           <Route
             path="/resources/create"
             exact
@@ -135,7 +145,7 @@ function App() {
             path="/resources/:id"
             exact
             component={() => <ShowResource />}
-          />
+          /> */}
           {/* /////////////////////////////////////// */}
 
           <Route path="/issues" exact component={() => <IssueList />} />
@@ -144,11 +154,7 @@ function App() {
             exact
             component={() => <IssueCreateForm />}
           />
-          <Route
-            path="/issues/:id"
-            exact
-            component={() => <ShowIssue />}
-          />
+          <Route path="/issues/:id" exact component={() => <ShowIssue />} />
           {/* /////////////////////////////////////// */}
           {/* <Redirect from="/" exact to="/deliverables" /> */}
         </Switch>

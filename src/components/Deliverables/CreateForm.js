@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
-import { Router, useHistory } from "react-router";
+import {  useHistory } from "react-router";
 import { StyledForm, StyledInput, StyledSelect, StyledTextArea } from "../Reusable/Form";
 
 
@@ -34,7 +34,9 @@ const Form = () => {
     },
     onSubmit: async (values) => {
       values.task = db.doc(`tasks/${values.task}/`);
-      const res = await db.collection("deliverables").add(values);
+      // const res = await db.collection("deliverables").add(values);
+      await db.collection("deliverables").add(values);
+
       history.push("/deliverables");
     },
   });

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
-import { Router, useHistory } from "react-router";
+import {  useHistory } from "react-router";
 import {
   StyledForm,
   StyledInput,
@@ -49,7 +49,9 @@ const Form = () => {
     onSubmit: async (values) => {
       values.updateDate = new Date().toDateString();
       values.resourceAssigned = db.doc(`resources/${values.resourceAssigned}/`);
-      const res = await db.collection("action-items").add(values);
+      // const res = await db.collection("action-items").add(values);
+await db.collection("action-items").add(values);
+
       history.push("/action-items");
     },
   });

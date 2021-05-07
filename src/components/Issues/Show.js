@@ -27,7 +27,7 @@ const ShowIssue = () => {
       }
     };
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const deleteIssue = async () => {
     await db.collection("issues").doc(id).delete();

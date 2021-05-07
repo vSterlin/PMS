@@ -15,13 +15,13 @@ const ShowDecision = () => {
       const res = await db.collection("decisions").doc(id).get();
       setDecision(res.data());
       console.log(res.data())
-      if (res.data().resourceAssigned) {
-        const resource = await res.data().resourceAssigned.get();
+      if (res.data().decisionMaker) {
+        const resource = await res.data().decisionMaker.get();
         setResource(resource.data());
       }
     };
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const deleteDecision = async () => {
     await db.collection("decisions").doc(id).delete();
@@ -49,6 +49,14 @@ const ShowDecision = () => {
             <ItemDetail>
               <Bolder>Date Needed: </Bolder>
               {decision.dateNeeded}
+            </ItemDetail>
+            <ItemDetail>
+              <Bolder>Date Made: </Bolder>
+              {decision.dateMade}
+            </ItemDetail>
+            <ItemDetail>
+              <Bolder>Decision Maker: </Bolder>
+              {resource.name}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Expected Completion Date: </Bolder>

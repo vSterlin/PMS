@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
-import { Router, useHistory } from "react-router";
+import { useHistory } from "react-router";
 import * as Yup from "yup";
 import {
   StyledForm,
@@ -28,11 +28,21 @@ const validationSchema = Yup.object({
 const Form = () => {
   const history = useHistory();
 
+  const [resources, setResources] = useState([]);
+
   const [priorities, setPriorities] = useState([]);
   const [impacts, setImpacts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
+      const resources = await db.collection("resources").get();
+      setResources(
+        resources.docs.map((resource) => ({
+          ...resource.data(),
+          id: resource.id,
+        }))
+      );
+
       const priorities = await db
         .collection("lists")
         .where("name", "==", "priority")
@@ -56,6 +66,8 @@ const Form = () => {
       priority: "",
       impact: "",
       dateNeeded: "",
+      dateMade: "",
+      decisionMaker: "",
       expectedCompletionDate: "",
       actualCompletionDate: "",
       meetingNotes: "",
@@ -66,15 +78,16 @@ const Form = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      const res = await db.collection("decisions").add(values);
+      // const res = await db.collection("decisions").add(values);
+      values.decisionMaker = db.doc(`resources/${values.decisionMaker}/`);
+      await db.collection("decisions").add(values);
+
       history.push("/decisions");
     },
   });
 
   const { errors } = formik;
-  {
-    console.log(errors);
-  }
+
   return (
     <div>
       <Header>Create New Decision</Header>
@@ -130,6 +143,29 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.dateMade}>
+          <StyledInput
+            placeholder="Date Made (mm/dd/yy)"
+            value={formik.values.dateMade}
+            onChange={formik.handleChange}
+            name="dateMade"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
+          />
+        </StyledInputWrapper>
+
+        <StyledInputWrapper error={!!errors.decisionMaker}>
+          <StyledSelect
+            value={formik.values.decisionMaker}
+            onChange={formik.handleChange}
+            name="decisionMaker"
+          >
+            <option value="" label="Decision Maker" />
+            {resources.map((resource) => (
+              <option value={resource.id} label={resource.name} />
+            ))}
+          </StyledSelect>
         </StyledInputWrapper>
 
         <StyledInputWrapper error={!!errors.expectedCompletionDate}>

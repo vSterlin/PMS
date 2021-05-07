@@ -20,7 +20,7 @@ const ShowDeliverable = () => {
       setTask(tas.data());
     };
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const deleteDeliverable = async () => {
     await db.collection("deliverables").doc(id).delete();

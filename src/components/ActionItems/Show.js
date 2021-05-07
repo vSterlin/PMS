@@ -21,7 +21,7 @@ const ShowActionItem = () => {
       }
     };
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const deleteActionItem = async () => {
     await db.collection("action-items").doc(id).delete();

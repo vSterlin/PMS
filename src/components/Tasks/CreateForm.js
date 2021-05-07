@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
-import { Router, useHistory } from "react-router";
+import {  useHistory } from "react-router";
 import {
   StyledForm,
   StyledInput,
@@ -85,7 +85,9 @@ const Form = () => {
       if (values.successorTask !== "") {
         values.successorTask = db.doc(`tasks/${values.successorTask}/`);
       }
-      const res = await db.collection("tasks").add(values);
+      // const res = await db.collection("tasks").add(values);
+      await db.collection("tasks").add(values);
+
       history.push("/tasks");
     },
   });
