@@ -85,6 +85,14 @@ const Form = () => {
       if (values.successorTask !== "") {
         values.successorTask = db.doc(`tasks/${values.successorTask}/`);
       }
+
+      if (values.issues !== "") {
+        values.issues = db.doc(`issues/${values.issues}/`);
+      }
+      if (values.decisions !== "") {
+        values.decisions = db.doc(`decisions/${values.decisions}/`);
+      }
+
       // const res = await db.collection("tasks").add(values);
       await db.collection("tasks").add(values);
 

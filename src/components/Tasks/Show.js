@@ -10,6 +10,9 @@ const ShowTask = () => {
   const [task, setTask] = useState(null);
   const [predecessorTask, setPredecessorTask] = useState("");
   const [successorTask, setSuccessorTask] = useState("");
+  const [resourceAssigned, setResourceAssigned] = useState("");
+  const [issues, setIssues] = useState("");
+  const [decisions, setDecisions] = useState("");
 
   const { id } = useParams();
   console.log(id);
@@ -25,6 +28,20 @@ const ShowTask = () => {
         const successorTask = await res.data().successorTask.get();
         setSuccessorTask(successorTask.data());
       }
+      if(res.data().resourceAssigned) {
+        const resourceAssigned = await res.data().resourceAssigned.get();
+        setResourceAssigned(resourceAssigned);
+      }
+
+      if(res.data().issues) {
+        const issues = await res.data().issues.get();
+        setIssues(issues);
+      }
+      if(res.data().resourceAssigned) {
+        const decisions = await res.data().decisions.get();
+        setDecisions(decisions);
+      }
+
     };
     fetchData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -118,12 +135,12 @@ const ShowTask = () => {
 
             <ItemDetail>
               <Bolder>List of Issues: </Bolder>
-              {task.issues || "..."}
+              {issues.name || "..."}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>List of Decisions: </Bolder>
-              {task.decisions || "..."}
+              {decisions.name || "..."}
             </ItemDetail>
 
             <Link to={`/tasks/${task.id}/edit`}>

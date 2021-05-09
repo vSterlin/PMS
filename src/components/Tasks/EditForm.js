@@ -19,6 +19,12 @@ const Form = () => {
 
   const [task, setTask] = useState(null);
 
+  const [predecessorTask, setPredecessorTask] = useState(null);
+  const [successorTask, setSuccessorTask] = useState(null);
+
+  const [issue, setIssue] = useState(null);
+  const [decision, setDecision] = useState(null);
+
   const [tasks, setTasks] = useState([]);
   const [issues, setIssues] = useState([]);
   const [decisions, setDecisions] = useState([]);
@@ -58,10 +64,34 @@ const Form = () => {
       const task = taskDoc.data();
       setTask(task);
       formik.setValues(task);
+      console.log(task)
       if (task.resourceAssigned !== "") {
         const res = await task.resourceAssigned.get();
         const resourceAssigned = res.data();
         setResourceAssigned(resourceAssigned);
+      }
+
+      if (task.issues !== "") {
+        const res = await task.issues.get();
+        const issue = res.data();
+        setIssue(issue);
+      }
+
+      if (task.decisions !== "") {
+        const res = await task.decisions.get();
+        const decision = res.data();
+        setDecision(decision);
+      }
+
+      if (task.predecessorTask !== "") {
+        const res = await task.resourceAssigned.get();
+        const predecessorTask = res.data();
+        setPredecessorTask(predecessorTask);
+      }
+      if (task.successorTask !== "") {
+        const res = await task.resourceAssigned.get();
+        const successorTask = res.data();
+        setSuccessorTask(successorTask);
       }
     };
 
@@ -101,6 +131,14 @@ const Form = () => {
       if (values.successorTask !== "") {
         values.successorTask = db.doc(`tasks/${values.successorTask}/`);
       }
+
+      if (values.issues !== "") {
+        values.issues = db.doc(`issues/${values.issues}/`);
+      }
+      if (values.decisions !== "") {
+        values.decisions = db.doc(`decisions/${values.decisions}/`);
+      }
+
       await db.collection("tasks").doc(id).set(values);
 
       history.push("/tasks");
@@ -250,6 +288,13 @@ const Form = () => {
                 onChange={formik.handleChange}
                 name="predecessorTask"
               >
+                {predecessorTask && (
+                  <option
+                    value={predecessorTask.id}
+                    label={predecessorTask.name}
+                  />
+                )}
+
                 <option value="" label="Predecessor Tasks" />
                 {tasks.map((task) => (
                   <option value={task.id} label={task.name} />
@@ -263,6 +308,10 @@ const Form = () => {
                 onChange={formik.handleChange}
                 name="successorTask"
               >
+                {successorTask && (
+                  <option value={successorTask.id} label={successorTask.name} />
+                )}
+
                 <option value="" label="Successor Tasks" />
                 {tasks.map((task) => (
                   <option value={task.id} label={task.name} />
@@ -276,6 +325,7 @@ const Form = () => {
                 onChange={formik.handleChange}
                 name="issues"
               >
+                {issue && <option value={issue.id} label={issue.name} />}
                 <option value="" label="List of Issues" />
                 {issues.map((issue) => (
                   <option value={issue.id} label={issue.name} />
@@ -289,6 +339,10 @@ const Form = () => {
                 onChange={formik.handleChange}
                 name="decisions"
               >
+                {decision && (
+                  <option value={decision.id} label={decision.name} />
+                )}
+
                 <option value="" label="List of Decisions" />
                 {decisions.map((decision) => (
                   <option value={decision.id} label={decisions.name} />
