@@ -6,10 +6,37 @@ import { useHistory } from "react-router";
 import {
   StyledForm,
   StyledInput,
+  StyledInputWrapper,
   StyledSelect,
   StyledTextArea,
 } from "../Reusable/Form";
 
+import * as Yup from "yup";
+
+const validationSchema = Yup.object({
+  name: Yup.string().required(),
+
+  type: Yup.string().required(),
+  description: Yup.string().required(),
+  resourceAssigned: Yup.mixed().oneOf([
+    Yup.string().required(),
+    Yup.object().required(),
+  ]),
+  expectedStartDate: Yup.string().required(),
+  expectedEndDate: Yup.string().required(),
+  expectedDuration: Yup.string().required(),
+  expectedEffort: Yup.string().required(),
+  actualStartDate: "",
+  actualEndDate: "",
+  actualDuration: "",
+  effortCompleted: "",
+  actualEffort: "",
+  percentComplete: Yup.string().required(),
+  predecessorTask: "",
+  successorTask: "",
+  issues: "",
+  decisions: "",
+});
 const Form = () => {
   const history = useHistory();
   const [actionItems, setActionItems] = useState([]);
@@ -51,58 +78,60 @@ const Form = () => {
       actionItem: "",
       decision: "",
     },
+    validationSchema,
     onSubmit: async (values) => {
       // const res = await db.collection("issues").add(values);
       if (values.decision !== "") {
-        values.decision = db.doc(
-          `decisions/${values.decision}/`
-        );
+        values.decision = db.doc(`decisions/${values.decision}/`);
       }
       if (values.actionItem !== "") {
-        values.actionItem = db.doc(
-          `action-item/${values.actionItem}/`
-        );
+        values.actionItem = db.doc(`action-item/${values.actionItem}/`);
       }
-      
+
       await db.collection("issues").add(values);
       history.push("/issues");
     },
   });
 
+  const { errors } = formik;
+
   return (
     <div>
       <Header>Create New Issue</Header>
       <StyledForm onSubmit={formik.handleSubmit}>
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Name"
             value={formik.values.name}
             onChange={formik.handleChange}
             name="name"
           />
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
             onChange={formik.handleChange}
             name="description"
           ></StyledTextArea>
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Priority"
             value={formik.values.priority}
             onChange={formik.handleChange}
             name="priority"
           />
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Severity"
             value={formik.values.severity}
             onChange={formik.handleChange}
             name="severity"
           />
-
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Date Assigned (mm/dd/yy)"
             value={formik.values.dateAssigned}
@@ -111,9 +140,9 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Expected Completion Date (mm/dd/yy)"
             value={formik.values.expectedCompletionDate}
@@ -122,9 +151,9 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Actual Completion Date (mm/dd/yy)"
             value={formik.values.actualCompletionDate}
@@ -133,18 +162,18 @@ const Form = () => {
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Status"
             value={formik.values.status}
             onChange={formik.handleChange}
             name="status"
           />
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledSelect
             value={formik.values.actionItem}
             onChange={formik.handleChange}
@@ -155,9 +184,9 @@ const Form = () => {
               <option value={actionItem.id} label={actionItem.name} />
             ))}
           </StyledSelect>
-        </div>
+        </StyledInputWrapper>
 
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledSelect
             value={formik.values.decision}
             onChange={formik.handleChange}
@@ -168,7 +197,7 @@ const Form = () => {
               <option value={decision.id} label={decision.name} />
             ))}
           </StyledSelect>
-        </div>
+        </StyledInputWrapper>
 
         <div>
           <button>Submit</button>

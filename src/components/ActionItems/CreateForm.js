@@ -2,13 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
-import {  useHistory } from "react-router";
+import { useHistory } from "react-router";
 import {
   StyledForm,
   StyledInput,
   StyledSelect,
   StyledTextArea,
+  StyledInputWrapper,
 } from "../Reusable/Form";
+
+import * as Yup from "yup";
+
+const validationSchema = Yup.object({
+  name: Yup.string().required(),
+  description: Yup.string().required(),
+  dateAssigned: Yup.string().required(),
+  resourceAssigned: Yup.mixed().oneOf([
+    Yup.string().required(),
+    Yup.object().required(),
+  ]),
+  expectedCompletionDate: Yup.string().required(),
+  status: Yup.string().required(),
+});
 
 const Form = () => {
   const history = useHistory();
@@ -46,37 +61,39 @@ const Form = () => {
 
       status: "",
     },
+    validationSchema,
     onSubmit: async (values) => {
       values.updateDate = new Date().toDateString();
       values.resourceAssigned = db.doc(`resources/${values.resourceAssigned}/`);
       // const res = await db.collection("action-items").add(values);
-await db.collection("action-items").add(values);
+      await db.collection("action-items").add(values);
 
       history.push("/action-items");
     },
   });
 
+  const { errors } = formik;
   return (
     <div>
       <Header>Create New Action Item</Header>
       <StyledForm onSubmit={formik.handleSubmit}>
-        <div>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Name"
             value={formik.values.name}
             onChange={formik.handleChange}
             name="name"
           />
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
             onChange={formik.handleChange}
             name="description"
           ></StyledTextArea>
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Date Assigned (mm/dd/yy)"
             value={formik.values.dateAssigned}
@@ -85,8 +102,8 @@ await db.collection("action-items").add(values);
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>{" "}
-        <div>
+        </StyledInputWrapper>{" "}
+        <StyledInputWrapper error={!!errors.name}>
           <StyledSelect
             value={formik.values.resourceAssigned}
             onChange={formik.handleChange}
@@ -97,8 +114,8 @@ await db.collection("action-items").add(values);
               <option value={resource.id} label={resource.name} />
             ))}
           </StyledSelect>
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Expected Completion Date"
             value={formik.values.expectedCompletionDate}
@@ -107,8 +124,8 @@ await db.collection("action-items").add(values);
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
-        <div>
+        </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.name}>
           <StyledInput
             placeholder="Actual Completion Date"
             value={formik.values.actualCompletionDate}
@@ -117,19 +134,7 @@ await db.collection("action-items").add(values);
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
           />
-        </div>
-        {/* <div>
-          <StyledSelect
-            value={formik.values}
-            onChange={formik.handleChange}
-            name=""
-          >
-            <option value="" label="Predecessor Tasks" />
-            {tasks.map((task) => (
-              <option value={task.id} label={task.name} />
-            ))}
-          </StyledSelect>
-        </div> */}
+        </StyledInputWrapper>
         <div>
           <button>Submit</button>
         </div>

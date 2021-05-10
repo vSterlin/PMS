@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Header from "../Reusable/Header";
 import db from "../../firebase";
-import {  useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import * as Yup from "yup";
 import {
   StyledForm,
@@ -29,18 +29,17 @@ const Form = () => {
   const history = useHistory();
   const [resource, setResource] = useState(null);
   const { id } = useParams();
-  console.log(id)
+  console.log(id);
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("resources").doc(id).get();
       const resource = res.data();
       setResource(resource);
-      formik.setValues(resource)
+      formik.setValues(resource);
     };
 
     fetchData();
-
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const formik = useFormik({
     initialValues: {
@@ -55,13 +54,11 @@ const Form = () => {
     validationSchema,
     onSubmit: async (values) => {
       // const res = await db.collection("resources").add(values);
-      
+
       await db.collection("resources").doc(id).set(values);
       history.push("/resources");
     },
-    
   });
-
 
   const { errors } = formik;
 
