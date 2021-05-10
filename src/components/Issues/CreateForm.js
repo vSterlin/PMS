@@ -53,6 +53,17 @@ const Form = () => {
     },
     onSubmit: async (values) => {
       // const res = await db.collection("issues").add(values);
+      if (values.decision !== "") {
+        values.decision = db.doc(
+          `decisions/${values.decision}/`
+        );
+      }
+      if (values.actionItem !== "") {
+        values.actionItem = db.doc(
+          `action-item/${values.actionItem}/`
+        );
+      }
+      
       await db.collection("issues").add(values);
       history.push("/issues");
     },

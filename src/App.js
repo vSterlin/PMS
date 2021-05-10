@@ -8,17 +8,26 @@ import {
   DeliverableList,
   DeliverableCreateForm,
   ShowDeliverable,
+  DeliverableEditForm,
 } from "./components/Deliverables";
 import {
   DecisionList,
   DecisionCreateForm,
   ShowDecision,
+  DecisionEditForm,
 } from "./components/Decisions";
-import { TaskList, TaskCreateForm, ShowTask, Gantt, TaskEditForm } from "./components/Tasks";
+import {
+  TaskList,
+  TaskCreateForm,
+  ShowTask,
+  Gantt,
+  TaskEditForm,
+} from "./components/Tasks";
 import {
   ActionItemList,
   ActionItemCreateForm,
   ShowActionItem,
+  ActionItemEditForm,
 } from "./components/ActionItems";
 import {
   ResourceCreateForm,
@@ -26,7 +35,12 @@ import {
   ResourceList,
   ShowResource,
 } from "./components/Resources";
-import { IssueCreateForm, IssueList, ShowIssue } from "./components/Issues";
+import {
+  IssueCreateForm,
+  IssueEditForm,
+  IssueList,
+  ShowIssue,
+} from "./components/Issues";
 
 const MainFlexBox = styled.div`
   display: grid;
@@ -73,6 +87,11 @@ function App() {
             component={() => <DeliverableCreateForm />}
           />
           <Route
+            path="/deliverables/:id/edit"
+            exact
+            component={() => <DeliverableEditForm />}
+          />
+          <Route
             path="/deliverables/:id"
             exact
             component={() => <ShowDeliverable />}
@@ -85,7 +104,11 @@ function App() {
             component={() => <TaskCreateForm />}
           />
           <Route path="/tasks/gantt" exact component={() => <Gantt />} />
-          <Route path="/tasks/:id/edit" exact component={() => <TaskEditForm />} />
+          <Route
+            path="/tasks/:id/edit"
+            exact
+            component={() => <TaskEditForm />}
+          />
 
           <Route path="/tasks/:id" exact component={() => <ShowTask />} />
           {/* /////////////////////////////////////// */}
@@ -100,6 +123,11 @@ function App() {
             component={() => <ActionItemCreateForm />}
           />
           <Route
+            path="/action-items/:id/edit"
+            exact
+            component={() => <ActionItemEditForm />}
+          />
+          <Route
             path="/action-items/:id"
             exact
             component={() => <ShowActionItem />}
@@ -110,6 +138,11 @@ function App() {
             path="/decisions/create"
             exact
             component={() => <DecisionCreateForm />}
+          />
+          <Route
+            path="/decisions/:id/edit"
+            exact
+            component={() => <DecisionEditForm />}
           />
           <Route
             path="/decisions/:id"
@@ -156,7 +189,13 @@ function App() {
             exact
             component={() => <IssueCreateForm />}
           />
+          <Route
+            path="/issues/:id/edit"
+            exact
+            component={() => <IssueEditForm />}
+          />
           <Route path="/issues/:id" exact component={() => <ShowIssue />} />
+
           {/* /////////////////////////////////////// */}
           {/* <Redirect from="/" exact to="/deliverables" /> */}
         </Switch>

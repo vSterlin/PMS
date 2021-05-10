@@ -64,16 +64,18 @@ const Form = () => {
       const task = taskDoc.data();
       setTask(task);
       formik.setValues(task);
-      console.log(task)
+
       if (task.resourceAssigned !== "") {
         const res = await task.resourceAssigned.get();
         const resourceAssigned = res.data();
         setResourceAssigned(resourceAssigned);
       }
 
+
       if (task.issues !== "") {
         const res = await task.issues.get();
         const issue = res.data();
+
         setIssue(issue);
       }
 
@@ -84,19 +86,19 @@ const Form = () => {
       }
 
       if (task.predecessorTask !== "") {
-        const res = await task.resourceAssigned.get();
+        const res = await task.predecessorTask.get();
         const predecessorTask = res.data();
         setPredecessorTask(predecessorTask);
       }
       if (task.successorTask !== "") {
-        const res = await task.resourceAssigned.get();
+        const res = await task.successorTask.get();
         const successorTask = res.data();
         setSuccessorTask(successorTask);
       }
     };
 
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const formik = useFormik({
     initialValues: {
@@ -120,22 +122,23 @@ const Form = () => {
       decisions: "",
     },
     onSubmit: async (values) => {
-      if (values.resourceAssigned !== "") {
+      console.log(values)
+      if (values.resourceAssigned !== "" && typeof values.resourceAssigned !== "object") {
         values.resourceAssigned = db.doc(
           `resources/${values.resourceAssigned}/`
         );
       }
-      if (values.predecessorTask !== "") {
+      if (values.predecessorTask !== "" && typeof values.predecessorTask !== "object") {
         values.predecessorTask = db.doc(`tasks/${values.predecessorTask}/`);
       }
-      if (values.successorTask !== "") {
+      if (values.successorTask !== "" && typeof values.successorTask !== "object") {
         values.successorTask = db.doc(`tasks/${values.successorTask}/`);
       }
 
-      if (values.issues !== "") {
+      if (values.issues !== "" && typeof values.issues !== "object") {
         values.issues = db.doc(`issues/${values.issues}/`);
       }
-      if (values.decisions !== "") {
+      if (values.decisions !== "" && typeof values.decisions !== "object") {
         values.decisions = db.doc(`decisions/${values.decisions}/`);
       }
 
@@ -311,6 +314,7 @@ const Form = () => {
                 {successorTask && (
                   <option value={successorTask.id} label={successorTask.name} />
                 )}
+                {console.log(successorTask)}
 
                 <option value="" label="Successor Tasks" />
                 {tasks.map((task) => (

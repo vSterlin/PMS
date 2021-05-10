@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
@@ -15,8 +16,8 @@ const ShowIssue = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("issues").doc(id).get();
-      setIssue(res.data());
-      console.log(res.data())
+      setIssue({...res.data(), id: res.id});
+      console.log(res.data());
       if (res.data().decision) {
         const decision = await res.data().decision.get();
         setDecision(decision.data());
@@ -62,7 +63,6 @@ const ShowIssue = () => {
               {issue.dateAssigned}
             </ItemDetail>
 
-
             <ItemDetail>
               <Bolder>Expected Completion Date: </Bolder>
               {issue.expectedCompletionDate}
@@ -84,7 +84,9 @@ const ShowIssue = () => {
               {decision.name}
             </ItemDetail>
 
-            <Button darker>Edit</Button>
+            <Link to={`/issues/${issue.id}/edit`}>
+              <Button darker>Edit</Button>
+            </Link>
             <Button onClick={deleteIssue}>Delete</Button>
           </Item>
         </>

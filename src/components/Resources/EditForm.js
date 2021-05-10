@@ -46,7 +46,7 @@ const Form = () => {
     initialValues: {
       name: "",
       title: "",
-      // skill: "",
+      skill: "",
       availabilityCalendar: "",
       payRate: "",
     },
@@ -55,7 +55,8 @@ const Form = () => {
     validationSchema,
     onSubmit: async (values) => {
       // const res = await db.collection("resources").add(values);
-      await db.collection("resources").add(values);
+      
+      await db.collection("resources").doc(id).set(values);
       history.push("/resources");
     },
     

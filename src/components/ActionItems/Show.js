@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
@@ -13,8 +14,8 @@ const ShowActionItem = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("action-items").doc(id).get();
-      setActionItem(res.data());
-      console.log(res.data())
+      setActionItem({ ...res.data(), id: res.id });
+      console.log(res.data());
       if (res.data().resourceAssigned) {
         const resource = await res.data().resourceAssigned.get();
         setResource(resource.data());
@@ -62,7 +63,9 @@ const ShowActionItem = () => {
               {actionItem.status}
             </ItemDetail>
 
-            <Button darker>Edit</Button>
+            <Link to={`/action-items/${actionItem.id}/edit`}>
+              <Button darker>Edit</Button>
+            </Link>
             <Button onClick={deleteActionItem}>Delete</Button>
           </Item>
         </>

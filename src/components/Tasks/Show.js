@@ -37,7 +37,7 @@ const ShowTask = () => {
         const issues = await res.data().issues.get();
         setIssues(issues);
       }
-      if(res.data().resourceAssigned) {
+      if(res.data().decisions) {
         const decisions = await res.data().decisions.get();
         setDecisions(decisions);
       }
@@ -70,7 +70,7 @@ const ShowTask = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Resource: </Bolder>
-              {task.resource || "..."}
+              {resourceAssigned.name || "..."}
             </ItemDetail>
 
             <ItemDetail>

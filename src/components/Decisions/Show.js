@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
@@ -13,8 +14,8 @@ const ShowDecision = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("decisions").doc(id).get();
-      setDecision(res.data());
-      console.log(res.data())
+      setDecision({ ...res.data(), id: res.id });
+      console.log(res.data());
       if (res.data().decisionMaker) {
         const resource = await res.data().decisionMaker.get();
         setResource(resource.data());
@@ -47,6 +48,10 @@ const ShowDecision = () => {
               {decision.priority}
             </ItemDetail>
             <ItemDetail>
+              <Bolder>Impact: </Bolder>
+              {decision.impact}
+            </ItemDetail>
+            <ItemDetail>
               <Bolder>Date Needed: </Bolder>
               {decision.dateNeeded}
             </ItemDetail>
@@ -72,9 +77,11 @@ const ShowDecision = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Reference Document: </Bolder>
-        Not part of proj
+              Not part of proj
             </ItemDetail>
-            <Button darker>Edit</Button>
+            <Link to={`/decisions/${decision.id}/edit`}>
+              <Button darker>Edit</Button>
+            </Link>
             <Button onClick={deleteDecision}>Delete</Button>
           </Item>
         </>
