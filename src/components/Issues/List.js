@@ -4,14 +4,25 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 
 import Loading from "../Reusable/Loading";
-import { ItemCard, ItemDescription, ItemName, DetailsLink, ButtonWrapper, StyledIcon } from "../Reusable/ListItems";
+import {
+  ItemCard,
+  ItemDescription,
+  ItemName,
+  DetailsLink,
+  ButtonWrapper,
+  StyledIcon,
+} from "../Reusable/ListItems";
 
+import Sorting from "./Sorting";
 
 const Issue = () => {
   const [issues, setIssues] = useState(null);
+  const [sort, setSort] = useState("name");
+  const [order, setOrder] = useState("asc");
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("issues").get();
+      const res = await db.collection("issues").orderBy(sort, order).get();
 
       setIssues(
         res.docs.map((issue) => ({
@@ -21,10 +32,13 @@ const Issue = () => {
       );
     };
     fetchData();
-  }, []);
+  }, [sort, order]);
+
   return (
     <div style={{ position: "relative" }}>
       <Header>Issues</Header>
+      <Sorting setOrder={setOrder} setSort={setSort} />
+
       <ButtonWrapper>
         <Link to="/issues/create">
           {/* <button> */}

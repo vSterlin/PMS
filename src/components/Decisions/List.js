@@ -12,12 +12,16 @@ import {
   ButtonWrapper,
   StyledIcon,
 } from "../Reusable/ListItems";
+import Sorting from "./Sorting";
 
 const Decision = () => {
   const [decisions, setDecisions] = useState(null);
+  const [sort, setSort] = useState("name");
+  const [order, setOrder] = useState("asc");
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("decisions").get();
+      const res = await db.collection("decisions").orderBy(sort, order).get();
 
       setDecisions(
         res.docs.map((decision) => ({
@@ -27,10 +31,13 @@ const Decision = () => {
       );
     };
     fetchData();
-  }, []);
+  }, [sort, order]);
+
   return (
     <div style={{ position: "relative" }}>
       <Header>Decisions</Header>
+      <Sorting setOrder={setOrder} setSort={setSort} />
+
       <ButtonWrapper>
         <Link to="/decisions/create">
           {/* <button> */}

@@ -10,10 +10,12 @@ import {
   ItemName,
   DetailsLink,
   ButtonWrapper,
-  StyledIcon,GanttButtonWrapper
+  StyledIcon,
+  GanttButtonWrapper,
 } from "../Reusable/ListItems";
 import { BarChartSteps } from "@styled-icons/bootstrap";
 import styled from "styled-components";
+import Sorting from "./Sorting";
 
 const StyledGraphIcon = styled(BarChartSteps)`
   height: 20px;
@@ -22,9 +24,12 @@ const StyledGraphIcon = styled(BarChartSteps)`
 
 const Task = () => {
   const [tasks, setTasks] = useState(null);
+  const [sort, setSort] = useState("name");
+  const [order, setOrder] = useState("asc");
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("tasks").get();
+      const res = await db.collection("tasks").orderBy(sort, order).get();
 
       setTasks(
         res.docs.map((task) => ({
@@ -34,13 +39,15 @@ const Task = () => {
       );
     };
     fetchData();
-  }, []);
+  }, [sort, order]);
+
   return (
     <div style={{ position: "relative" }}>
       <Header>Tasks</Header>
-      <GanttButtonWrapper>
+      <Sorting setOrder={setOrder} setSort={setSort} />
 
-      <Link to="/tasks/gantt" style={{ marginRight: "10px" }}>
+      <GanttButtonWrapper>
+        <Link to="/tasks/gantt" style={{ marginRight: "10px" }}>
           <div>
             <StyledGraphIcon />
             View Gantt Chart
@@ -48,7 +55,6 @@ const Task = () => {
         </Link>
       </GanttButtonWrapper>
       <ButtonWrapper>
-
         <Link to="/tasks/create">
           <div>
             <StyledIcon />

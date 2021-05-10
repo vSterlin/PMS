@@ -12,12 +12,19 @@ import {
   ButtonWrapper,
   StyledIcon,
 } from "../Reusable/ListItems";
+import Sorting from "./Sorting";
 
 const ActionItem = () => {
   const [actionItems, setActionItems] = useState(null);
+  const [sort, setSort] = useState("name");
+  const [order, setOrder] = useState("asc");
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await db.collection("action-items").get();
+      const res = await db
+        .collection("action-items")
+        .orderBy(sort, order)
+        .get();
 
       setActionItems(
         res.docs.map((actionItem) => ({
@@ -27,10 +34,13 @@ const ActionItem = () => {
       );
     };
     fetchData();
-  }, []);
+  }, [sort, order]);
+
   return (
     <div style={{ position: "relative" }}>
       <Header>Action Items</Header>
+      <Sorting setOrder={setOrder} setSort={setSort} />
+
       <ButtonWrapper>
         <Link to="/action-items/create">
           {/* <button> */}
