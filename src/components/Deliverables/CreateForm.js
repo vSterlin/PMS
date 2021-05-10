@@ -17,6 +17,7 @@ const validationSchema = Yup.object({
   name: Yup.string().required(),
   description: Yup.string().required(),
   date: Yup.string().required(),
+  // task: Yup.string().required(),
 });
 
 const Form = () => {
@@ -42,12 +43,14 @@ const Form = () => {
       name: "",
       description: "",
       date: "",
-      // requirement: "",
+      requirement: "",
       task: "",
     },
     validationSchema,
     onSubmit: async (values) => {
-      values.task = db.doc(`tasks/${values.task}/`);
+      if (values.task !== "" && typeof values.task !== "object") {
+        values.task = db.doc(`tasks/${values.task}/`);
+      }
       // const res = await db.collection("deliverables").add(values);
       await db.collection("deliverables").add(values);
 
@@ -68,7 +71,7 @@ const Form = () => {
             name="name"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.description}>
           <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
@@ -76,7 +79,7 @@ const Form = () => {
             name="description"
           ></StyledTextArea>
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.date}>
           <StyledInput
             placeholder="Due Date (mm/dd/yy)"
             value={formik.values.date}
@@ -86,7 +89,7 @@ const Form = () => {
             onBlur={(e) => (e.target.type = "text")}
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.requirement}>
           <StyledInput
             placeholder="List of Requirements (Not part of our project)"
             value={formik.values.requirement}
@@ -95,7 +98,7 @@ const Form = () => {
             disabled
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.task}>
           <StyledSelect
             value={formik.values.task}
             onChange={formik.handleChange}
@@ -109,7 +112,7 @@ const Form = () => {
         </StyledInputWrapper>
 
         <div>
-          <button>Submit</button>
+          <button type="submit">Submit</button>
         </div>
       </StyledForm>
     </div>

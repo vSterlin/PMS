@@ -81,8 +81,9 @@ const Form = () => {
     onSubmit: async (values) => {
       // const res = await db.collection("decisions").add(values);
       // values.decisionMaker = db.doc(`resources/${values.decisionMaker}/`);
-
-      values.decisionMaker = db.doc(`resources/${values.decisionMaker}/`);
+      if (values.decisionMaker !== "" && typeof values.decisionMaker !== "object") {
+        values.decisionMaker = db.doc(`resources/${values.decisionMaker}/`);
+      }
       await db.collection("decisions").add(values);
 
       history.push("/decisions");
@@ -217,7 +218,7 @@ const Form = () => {
         </StyledInputWrapper>
 
         <div>
-          <button>Submit</button>
+          <button type="submit">Submit</button>
         </div>
       </StyledForm>
     </div>

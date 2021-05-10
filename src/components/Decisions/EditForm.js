@@ -254,7 +254,7 @@ const Form = () => {
             </StyledInputWrapper>
 
             <div>
-              <button>Submit</button>
+              <button type="submit">Submit</button>
             </div>
           </StyledForm>
         </div>

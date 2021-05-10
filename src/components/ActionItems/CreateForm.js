@@ -17,10 +17,10 @@ const validationSchema = Yup.object({
   name: Yup.string().required(),
   description: Yup.string().required(),
   dateAssigned: Yup.string().required(),
-  resourceAssigned: Yup.mixed().oneOf([
-    Yup.string().required(),
-    Yup.object().required(),
-  ]),
+  // resourceAssigned: Yup.mixed().oneOf([
+  //   Yup.string().required(),
+  //   Yup.object().required(),
+  // ]),
   expectedCompletionDate: Yup.string().required(),
   status: Yup.string().required(),
 });
@@ -38,13 +38,6 @@ const Form = () => {
           id: resource.id,
         }))
       );
-      // const tasks = await db.collection("tasks").get();
-      // setActionItems(
-      //   tasks.docs.map((task) => ({
-      //     ...task.data(),
-      //     id: task.id,
-      //   }))
-      // );
     };
 
     fetchData();
@@ -64,7 +57,15 @@ const Form = () => {
     validationSchema,
     onSubmit: async (values) => {
       values.updateDate = new Date().toDateString();
-      values.resourceAssigned = db.doc(`resources/${values.resourceAssigned}/`);
+
+      if (
+        values.resourceAssigned !== "" &&
+        typeof values.resourceAssigned !== "object"
+      ) {
+        values.resourceAssigned = db.doc(
+          `resources/${values.resourceAssigned}/`
+        );
+      }
       // const res = await db.collection("action-items").add(values);
       await db.collection("action-items").add(values);
 
@@ -85,7 +86,7 @@ const Form = () => {
             name="name"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.description}>
           <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
@@ -93,7 +94,7 @@ const Form = () => {
             name="description"
           ></StyledTextArea>
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.dateAssigned}>
           <StyledInput
             placeholder="Date Assigned (mm/dd/yy)"
             value={formik.values.dateAssigned}
@@ -103,7 +104,7 @@ const Form = () => {
             onBlur={(e) => (e.target.type = "text")}
           />
         </StyledInputWrapper>{" "}
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.resourceAssigned}>
           <StyledSelect
             value={formik.values.resourceAssigned}
             onChange={formik.handleChange}
@@ -115,7 +116,7 @@ const Form = () => {
             ))}
           </StyledSelect>
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.expectedCompletionDate}>
           <StyledInput
             placeholder="Expected Completion Date"
             value={formik.values.expectedCompletionDate}
@@ -125,7 +126,7 @@ const Form = () => {
             onBlur={(e) => (e.target.type = "text")}
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.actualCompletionDate}>
           <StyledInput
             placeholder="Actual Completion Date"
             value={formik.values.actualCompletionDate}
@@ -136,7 +137,7 @@ const Form = () => {
           />
         </StyledInputWrapper>
         <div>
-          <button>Submit</button>
+          <button type="submit">Submit</button>
         </div>
       </StyledForm>
     </div>

@@ -15,28 +15,21 @@ import * as Yup from "yup";
 
 const validationSchema = Yup.object({
   name: Yup.string().required(),
-
-  type: Yup.string().required(),
   description: Yup.string().required(),
   resourceAssigned: Yup.mixed().oneOf([
     Yup.string().required(),
     Yup.object().required(),
   ]),
-  expectedStartDate: Yup.string().required(),
-  expectedEndDate: Yup.string().required(),
-  expectedDuration: Yup.string().required(),
-  expectedEffort: Yup.string().required(),
-  actualStartDate: "",
-  actualEndDate: "",
-  actualDuration: "",
-  effortCompleted: "",
-  actualEffort: "",
-  percentComplete: Yup.string().required(),
-  predecessorTask: "",
-  successorTask: "",
-  issues: "",
-  decisions: "",
+  priority: Yup.string().required(),
+  severity: Yup.string().required(),
+  dateAssigned: Yup.string().required(),
+  expectedCompletionDate: Yup.string().required(),
+  status: Yup.string().required(),
+  // actionItem: "",
+  // decision: "",
 });
+
+
 const Form = () => {
   const history = useHistory();
   const [actionItems, setActionItems] = useState([]);
@@ -107,7 +100,7 @@ const Form = () => {
             name="name"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.description}>
           <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
@@ -115,7 +108,7 @@ const Form = () => {
             name="description"
           ></StyledTextArea>
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.priority}>
           <StyledInput
             placeholder="Priority"
             value={formik.values.priority}
@@ -123,7 +116,7 @@ const Form = () => {
             name="priority"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.severity}>
           <StyledInput
             placeholder="Severity"
             value={formik.values.severity}
@@ -131,7 +124,7 @@ const Form = () => {
             name="severity"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.dateAssigned}>
           <StyledInput
             placeholder="Date Assigned (mm/dd/yy)"
             value={formik.values.dateAssigned}
@@ -142,7 +135,7 @@ const Form = () => {
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.expectedCompletionDate}>
           <StyledInput
             placeholder="Expected Completion Date (mm/dd/yy)"
             value={formik.values.expectedCompletionDate}
@@ -153,7 +146,7 @@ const Form = () => {
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.actualCompletionDate}>
           <StyledInput
             placeholder="Actual Completion Date (mm/dd/yy)"
             value={formik.values.actualCompletionDate}
@@ -164,7 +157,7 @@ const Form = () => {
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.status}>
           <StyledInput
             placeholder="Status"
             value={formik.values.status}
@@ -173,7 +166,7 @@ const Form = () => {
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.actionItem}>
           <StyledSelect
             value={formik.values.actionItem}
             onChange={formik.handleChange}
@@ -186,7 +179,7 @@ const Form = () => {
           </StyledSelect>
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.decision}>
           <StyledSelect
             value={formik.values.decision}
             onChange={formik.handleChange}
@@ -200,7 +193,7 @@ const Form = () => {
         </StyledInputWrapper>
 
         <div>
-          <button>Submit</button>
+          <button type="submit">Submit</button>
         </div>
       </StyledForm>
     </div>

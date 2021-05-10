@@ -8,7 +8,7 @@ import {
   StyledInput,
   StyledSelect,
   StyledTextArea,
-  StyledInputWrapper
+  StyledInputWrapper,
 } from "../Reusable/Form";
 
 import * as Yup from "yup";
@@ -26,16 +26,16 @@ const validationSchema = Yup.object({
   expectedEndDate: Yup.string().required(),
   expectedDuration: Yup.string().required(),
   expectedEffort: Yup.string().required(),
-  actualStartDate: "",
-  actualEndDate: "",
-  actualDuration: "",
-  effortCompleted: "",
-  actualEffort: "",
-  percentComplete: Yup.string().required(),
-  predecessorTask: "",
-  successorTask: "",
-  issues: "",
-  decisions: "",
+  // actualStartDate: "",
+  // actualEndDate: "",
+  // actualDuration: "",
+  // effortCompleted: "",
+  // actualEffort: "",
+  // percentComplete: Yup.string().required(),
+  // predecessorTask: "",
+  // successorTask: "",
+  // issues: "",
+  // decisions: "",
 });
 
 const Form = () => {
@@ -121,6 +121,9 @@ const Form = () => {
       if (values.decisions !== "") {
         values.decisions = db.doc(`decisions/${values.decisions}/`);
       }
+      if (!values.percentComplete) {
+        values.percentComplete = "0";
+      }
 
       // const res = await db.collection("tasks").add(values);
       await db.collection("tasks").add(values);
@@ -128,7 +131,7 @@ const Form = () => {
       history.push("/tasks");
     },
   });
-const {errors}= formik;
+  const { errors } = formik;
   return (
     <div>
       <Header>Create New Task</Header>
@@ -141,7 +144,7 @@ const {errors}= formik;
             name="name"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.type}>
           <StyledInput
             placeholder="Task Type"
             value={formik.values.type}
@@ -150,7 +153,7 @@ const {errors}= formik;
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.description}>
           <StyledTextArea
             placeholder="Description"
             value={formik.values.description}
@@ -158,7 +161,7 @@ const {errors}= formik;
             name="description"
           ></StyledTextArea>
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.resourceAssigned}>
           <StyledSelect
             value={formik.values.resourceAssigned}
             onChange={formik.handleChange}
@@ -170,7 +173,7 @@ const {errors}= formik;
             ))}
           </StyledSelect>
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.expectedStartDate}>
           <StyledInput
             placeholder="Expected Start Date (mm/dd/yy)"
             value={formik.values.expectedStartDate}
@@ -180,7 +183,7 @@ const {errors}= formik;
             onBlur={(e) => (e.target.type = "text")}
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.expectedEndDate}>
           <StyledInput
             placeholder="Expected End Date (mm/dd/yy)"
             value={formik.values.expectedEndDate}
@@ -191,7 +194,7 @@ const {errors}= formik;
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.expectedDuration}>
           <StyledInput
             placeholder="Expected Duration"
             value={formik.values.expectedDuration}
@@ -199,7 +202,7 @@ const {errors}= formik;
             name="expectedDuration"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.expectedEffort}>
           <StyledInput
             placeholder="Expected Effort"
             value={formik.values.expectedEffort}
@@ -207,7 +210,7 @@ const {errors}= formik;
             name="expectedEffort"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.actualStartDate}>
           <StyledInput
             placeholder="Actual Start Date (mm/dd/yy)"
             value={formik.values.actualStartDate}
@@ -217,7 +220,7 @@ const {errors}= formik;
             onBlur={(e) => (e.target.type = "text")}
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.actualEndDate}>
           <StyledInput
             placeholder="Actual End Date (mm/dd/yy)"
             value={formik.values.actualEndDate}
@@ -228,7 +231,7 @@ const {errors}= formik;
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.actualDuration}>
           <StyledInput
             placeholder="Actual Duration"
             value={formik.values.actualDuration}
@@ -236,7 +239,7 @@ const {errors}= formik;
             name="actualDuration"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.effortCompleted}>
           <StyledInput
             placeholder="Effort Completed"
             value={formik.values.effortCompleted}
@@ -244,7 +247,7 @@ const {errors}= formik;
             name="effortCompleted"
           />
         </StyledInputWrapper>
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.actualEffort}>
           <StyledInput
             placeholder="Actual Effort"
             value={formik.values.actualEffort}
@@ -253,7 +256,7 @@ const {errors}= formik;
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.percentComplete}>
           <StyledInput
             placeholder="Percent Completed"
             value={formik.values.percentComplete}
@@ -262,7 +265,7 @@ const {errors}= formik;
           />
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.predecessorTask}>
           <StyledSelect
             value={formik.values.predecessorTask}
             onChange={formik.handleChange}
@@ -275,7 +278,7 @@ const {errors}= formik;
           </StyledSelect>
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.successorTask}>
           <StyledSelect
             value={formik.values.successorTask}
             onChange={formik.handleChange}
@@ -288,7 +291,7 @@ const {errors}= formik;
           </StyledSelect>
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.issues}>
           <StyledSelect
             value={formik.values.issues}
             onChange={formik.handleChange}
@@ -301,7 +304,7 @@ const {errors}= formik;
           </StyledSelect>
         </StyledInputWrapper>
 
-        <StyledInputWrapper error={!!errors.name}>
+        <StyledInputWrapper error={!!errors.decisions}>
           <StyledSelect
             value={formik.values.decisions}
             onChange={formik.handleChange}
@@ -315,7 +318,7 @@ const {errors}= formik;
         </StyledInputWrapper>
 
         <div>
-          <button>Submit</button>
+          <button type="submit">Submit</button>
         </div>
       </StyledForm>
     </div>

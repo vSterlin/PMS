@@ -15,8 +15,12 @@ const ShowDeliverable = () => {
     const fetchData = async () => {
       const res = await db.collection("deliverables").doc(id).get();
       setDeliverable({ ...res.data(), id: res.id });
-      const tas = await res.data().task.get();
-      setTask(tas.data());
+
+      if (res.data().task) {
+        const task = await res.data().task.get();
+        setTask(task.data());
+      }
+
     };
     fetchData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
