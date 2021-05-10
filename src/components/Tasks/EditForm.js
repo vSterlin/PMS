@@ -391,7 +391,7 @@ const Form = () => {
 
                 <option value="" label="List of Decisions" />
                 {decisions.map((decision) => (
-                  <option value={decision.id} label={decisions.name} />
+                  <option value={decision.id} label={decision.name} />
                 ))}
               </StyledSelect>
             </StyledInputWrapper>
