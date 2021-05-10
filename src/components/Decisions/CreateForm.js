@@ -208,6 +208,8 @@ const Form = () => {
             onChange={formik.handleChange}
             name="status"
           />
+          </StyledInputWrapper>
+          <StyledInputWrapper>
           <StyledInput
             placeholder="List of Reference Documents (Not part of the project)"
             value={formik.values.referenceDocument}

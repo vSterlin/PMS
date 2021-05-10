@@ -118,7 +118,7 @@ const Form = () => {
         </StyledInputWrapper>
         <StyledInputWrapper error={!!errors.expectedCompletionDate}>
           <StyledInput
-            placeholder="Expected Completion Date"
+            placeholder="Expected Completion Date (mm/dd/yy)"
             value={formik.values.expectedCompletionDate}
             onChange={formik.handleChange}
             name="expectedCompletionDate"
@@ -128,7 +128,7 @@ const Form = () => {
         </StyledInputWrapper>
         <StyledInputWrapper error={!!errors.actualCompletionDate}>
           <StyledInput
-            placeholder="Actual Completion Date"
+            placeholder="Actual Completion Date (mm/dd/yy)"
             value={formik.values.actualCompletionDate}
             onChange={formik.handleChange}
             name="actualCompletionDate"
@@ -136,6 +136,14 @@ const Form = () => {
             onBlur={(e) => (e.target.type = "text")}
           />
         </StyledInputWrapper>
+        <StyledInputWrapper error={!!errors.status}>
+          <StyledInput
+            placeholder="Status"
+            value={formik.values.status}
+            onChange={formik.handleChange}
+            name="status"
+          />
+          </StyledInputWrapper>
         <div>
           <button type="submit">Submit</button>
         </div>

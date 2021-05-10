@@ -12,6 +12,7 @@ const Sorting = ({ setOrder, setSort }) => {
       Sort By:{" "}
       <select onChange={(e) => setSort(e.target.value)}>
         <option value="name">Name</option>
+        <option value="date">Due Date</option>
       </select>{" "}
       Order:{" "}
       <select onChange={(e) => setOrder(e.target.value)}>
