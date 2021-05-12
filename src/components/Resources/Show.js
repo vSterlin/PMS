@@ -5,6 +5,7 @@ import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
 
+
 const ShowResource = () => {
   const history = useHistory();
   const [resource, setResource] = useState(null);

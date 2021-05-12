@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
+import { DetailsLink } from "../Reusable/ListItems";
 
 const ShowIssue = () => {
   const history = useHistory();
@@ -20,11 +21,11 @@ const ShowIssue = () => {
       console.log(res.data());
       if (res.data().decision) {
         const decision = await res.data().decision.get();
-        setDecision(decision.data());
+        setDecision({...decision.data(), id: decision.id});
       }
       if (res.data().actionItem) {
         const actionItem = await res.data().actionItem.get();
-        setActionItem(actionItem.data());
+        setActionItem({...actionItem.data(), id: actionItem.id});
       }
     };
     fetchData();
@@ -80,11 +81,11 @@ const ShowIssue = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Action Item: </Bolder>
-              {(actionItem && actionItem.name) || "Doesn't exist"}
+              {(actionItem && <DetailsLink to={`/action-items/${actionItem.id}`} >{actionItem.name}</DetailsLink>) || "Doesn't exist"}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Decision: </Bolder>
-              {(decision && decision.name) || "Doesn't exist"}
+              {(decision && <DetailsLink to={`/decisions/${decision.id}`} >{decision.name}</DetailsLink>) || "Doesn't exist"}
             </ItemDetail>
 
             <Link to={`/issues/${issue.id}/edit`}>

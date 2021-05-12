@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
+import { DetailsLink } from "../Reusable/ListItems";
 
 const ShowActionItem = () => {
   const history = useHistory();
@@ -18,7 +19,7 @@ const ShowActionItem = () => {
       console.log(res.data());
       if (res.data().resourceAssigned) {
         const resource = await res.data().resourceAssigned.get();
-        setResource(resource.data());
+        setResource({...resource.data(), id: resource.id});
       }
     };
     fetchData();
@@ -51,7 +52,13 @@ const ShowActionItem = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Resource Assigned: </Bolder>
-              {(resource && resource.name) || "Doesn't exist"}
+              {(resource && 
+              <DetailsLink to={`/resources/${resource.id}`}>
+{
+                resource.name}
+              </DetailsLink>
+
+                ) || "Doesn't exist"}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Expected Completion Date: </Bolder>

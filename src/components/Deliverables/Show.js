@@ -3,7 +3,10 @@ import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
+import { DetailsLink } from "../Reusable/ListItems";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
+
+
 
 const ShowDeliverable = () => {
   const history = useHistory();
@@ -18,7 +21,7 @@ const ShowDeliverable = () => {
 
       if (res.data().task) {
         const task = await res.data().task.get();
-        setTask(task.data());
+        setTask({...task.data(), id: task.id});
       }
     };
     fetchData();
@@ -54,7 +57,9 @@ const ShowDeliverable = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Task: </Bolder>
-              {(task && task.name) || "Doesn't exist"}
+
+              {(task && <DetailsLink to={`/tasks/${task.id}`}>{task.name}</DetailsLink>) ||
+                "Doesn't exist"}
             </ItemDetail>
 
             <Link to={`/deliverables/${deliverable.id}/edit`}>

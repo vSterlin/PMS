@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
+import { DetailsLink } from "../Reusable/ListItems";
 
 const ShowDecision = () => {
   const history = useHistory();
@@ -18,7 +19,7 @@ const ShowDecision = () => {
       console.log(res.data());
       if (res.data().decisionMaker) {
         const resource = await res.data().decisionMaker.get();
-        setResource(resource.data());
+        setResource({ ...resource.data(), id: resource.id });
       }
     };
     fetchData();
@@ -34,8 +35,7 @@ const ShowDecision = () => {
         <>
           <Header>{decision.name}</Header>
           <Item>
-
-          <ItemDetail>
+            <ItemDetail>
               <Bolder>Unique ID: </Bolder> {decision.id}
             </ItemDetail>
 
@@ -66,7 +66,8 @@ const ShowDecision = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Decision Maker: </Bolder>
-              {(resource && resource.name) || "Doesn't exist"}
+              {(resource && <DetailsLink to={`/resources/${resource.id}`} >{resource.name}</DetailsLink>) ||
+                "Doesn't exist"}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Expected Completion Date: </Bolder>

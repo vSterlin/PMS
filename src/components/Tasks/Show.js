@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import db from "../../firebase";
 import Header from "../Reusable/Header";
 import { Item, ItemDetail, Bolder, Button } from "../Reusable/ShowItem";
+import { DetailsLink } from "../Reusable/ListItems";
 
 const ShowTask = () => {
   const history = useHistory();
@@ -22,28 +23,34 @@ const ShowTask = () => {
       setTask({ ...res.data(), id: res.id });
       if (res.data().predecessorTask) {
         const predecessorTask = await res.data().predecessorTask.get();
-        setPredecessorTask(predecessorTask.data());
+        setPredecessorTask({
+          ...predecessorTask.data(),
+          id: predecessorTask.id,
+        });
       }
       if (res.data().successorTask) {
         const successorTask = await res.data().successorTask.get();
-        setSuccessorTask(successorTask.data());
+        setSuccessorTask({ ...successorTask.data(), id: successorTask.id });
       }
       if (res.data().resourceAssigned) {
         const resourceAssigned = await res.data().resourceAssigned.get();
-        setResourceAssigned(resourceAssigned);
+        setResourceAssigned({
+          ...resourceAssigned.data(),
+          id: resourceAssigned.id,
+        });
       }
 
       if (res.data().issues) {
         const issues = await res.data().issues.get();
-        setIssues(issues);
+        setIssues({ ...issues.data(), id: issues.id });
       }
       if (res.data().decisions) {
         const decisions = await res.data().decisions.get();
-        setDecisions(decisions);
+        setDecisions({ ...decisions.data(), id: decisions.id });
       }
     };
     fetchData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const deleteTask = async () => {
     await db.collection("tasks").doc(id).delete();
@@ -73,7 +80,13 @@ const ShowTask = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Resource: </Bolder>
-              {(resourceAssigned && resourceAssigned.name) || "Doesn't exist"}
+
+              {(resourceAssigned && (
+                <DetailsLink to={`/resources/${resourceAssigned.id}`}>
+                  {resourceAssigned.name}
+                </DetailsLink>
+              )) ||
+                "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
@@ -128,22 +141,38 @@ const ShowTask = () => {
 
             <ItemDetail>
               <Bolder>Predecessor Task: </Bolder>
-              {(predecessorTask && predecessorTask.name) || "Doesn't exist"}
+              {(predecessorTask && (
+                <DetailsLink to={`/tasks/${predecessorTask.id}`}>
+                  {predecessorTask.name}
+                </DetailsLink>
+              )) ||
+                "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Successor Task: </Bolder>
-              {(successorTask && successorTask.name) || "Doesn't exist"}
+              {(successorTask && <DetailsLink  to={`/tasks/${successorTask.id}`} >{successorTask.name}</DetailsLink>) ||
+                "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>List of Issues: </Bolder>
-              {(issues && issues.name) || "Doesn't exist"}
+              {(issues && (
+                <DetailsLink to={`/issues/${issues.id}`}>
+                  {issues.name}
+                </DetailsLink>
+              )) ||
+                "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>List of Decisions: </Bolder>
-              {(decisions && decisions.name) || "Doesn't exist"}
+              {(decisions && (
+                <DetailsLink to={`/decisions/${decisions.id}`}>
+                  {decisions.name}
+                </DetailsLink>
+              )) ||
+                "Doesn't exist"}
             </ItemDetail>
 
             <Link to={`/tasks/${task.id}/edit`}>
