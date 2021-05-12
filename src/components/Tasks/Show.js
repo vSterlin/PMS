@@ -19,7 +19,7 @@ const ShowTask = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("tasks").doc(id).get();
-      setTask({...res.data(), id: res.id});
+      setTask({ ...res.data(), id: res.id });
       if (res.data().predecessorTask) {
         const predecessorTask = await res.data().predecessorTask.get();
         setPredecessorTask(predecessorTask.data());
@@ -28,20 +28,19 @@ const ShowTask = () => {
         const successorTask = await res.data().successorTask.get();
         setSuccessorTask(successorTask.data());
       }
-      if(res.data().resourceAssigned) {
+      if (res.data().resourceAssigned) {
         const resourceAssigned = await res.data().resourceAssigned.get();
         setResourceAssigned(resourceAssigned);
       }
 
-      if(res.data().issues) {
+      if (res.data().issues) {
         const issues = await res.data().issues.get();
         setIssues(issues);
       }
-      if(res.data().decisions) {
+      if (res.data().decisions) {
         const decisions = await res.data().decisions.get();
         setDecisions(decisions);
       }
-
     };
     fetchData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -57,90 +56,94 @@ const ShowTask = () => {
           <Header>{task.name}</Header>
           <Item>
             <ItemDetail>
+              <Bolder>Unique ID: </Bolder> {task.id}
+            </ItemDetail>
+
+            <ItemDetail>
               <Bolder>Name: </Bolder> {task.name}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Type: </Bolder>
-              {task.type || "..."}
+              {task.type}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Description: </Bolder>
-              {task.description || "..."}
+              {task.description}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Resource: </Bolder>
-              {resourceAssigned.name || "..."}
+              {(resourceAssigned && resourceAssigned.name) || "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Expected Start Date: </Bolder>
-              {task.expectedStartDate || "..."}
+              {task.expectedStartDate}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Expected End Date: </Bolder>
-              {task.actualEndDate || "..."}
+              {task.actualEndDate}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Expected Duration: </Bolder>
-              {task.expectedDuration || "..."}
+              {task.expectedDuration}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Expected Effort: </Bolder>
-              {task.expectedEffort || "..."}
+              {task.expectedEffort}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Actual Start Date: </Bolder>
-              {task.actualStartDate || "..."}
+              {task.actualStartDate}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Actual End Date: </Bolder>
-              {task.actualEndDate || "..."}
+              {task.actualEndDate}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Actual Duration: </Bolder>
-              {task.actualDuration || "..."}
+              {task.actualDuration}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Effort Completed: </Bolder>
-              {task.effortCompleted || "..."}
+              {task.effortCompleted}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Actual Effort: </Bolder>
-              {task.actualEffort || "..."}
+              {task.actualEffort}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Percent Completed: </Bolder>
-              {task.percentComplete || "..."}%
+              {task.percentComplete}%
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Predecessor Task: </Bolder>
-              {predecessorTask.name || "..."}
+              {(predecessorTask && predecessorTask.name) || "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>Successor Task: </Bolder>
-              {successorTask.name || "..."}
+              {(successorTask && successorTask.name) || "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>List of Issues: </Bolder>
-              {issues.name || "..."}
+              {(issues && issues.name) || "Doesn't exist"}
             </ItemDetail>
 
             <ItemDetail>
               <Bolder>List of Decisions: </Bolder>
-              {decisions.name || "..."}
+              {(decisions && decisions.name) || "Doesn't exist"}
             </ItemDetail>
 
             <Link to={`/tasks/${task.id}/edit`}>
@@ -150,7 +153,6 @@ const ShowTask = () => {
           </Item>
         </>
       )}
-
     </div>
   );
 };

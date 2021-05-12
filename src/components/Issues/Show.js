@@ -16,7 +16,7 @@ const ShowIssue = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await db.collection("issues").doc(id).get();
-      setIssue({...res.data(), id: res.id});
+      setIssue({ ...res.data(), id: res.id });
       console.log(res.data());
       if (res.data().decision) {
         const decision = await res.data().decision.get();
@@ -40,6 +40,9 @@ const ShowIssue = () => {
         <>
           <Header>{issue.name}</Header>
           <Item>
+            <ItemDetail>
+              <Bolder>Unique ID: </Bolder> {issue.id}
+            </ItemDetail>
             <ItemDetail>
               <Bolder>Name: </Bolder> {issue.name}
             </ItemDetail>
@@ -77,11 +80,11 @@ const ShowIssue = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Action Item: </Bolder>
-              {actionItem.name}
+              {(actionItem && actionItem.name) || "Doesn't exist"}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Decision: </Bolder>
-              {decision.name}
+              {(decision && decision.name) || "Doesn't exist"}
             </ItemDetail>
 
             <Link to={`/issues/${issue.id}/edit`}>

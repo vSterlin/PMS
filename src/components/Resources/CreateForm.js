@@ -40,7 +40,6 @@ const Form = () => {
     validateOnChange: false,
     validationSchema,
     onSubmit: async (values) => {
-      // const res = await db.collection("resources").add(values);
       
       await db.collection("resources").add(values);
       history.push("/resources");

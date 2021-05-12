@@ -34,6 +34,9 @@ const ShowActionItem = () => {
         <>
           <Header>{actionItem.name}</Header>
           <Item>
+          <ItemDetail>
+              <Bolder>Unique ID: </Bolder> {actionItem.id}
+            </ItemDetail>
             <ItemDetail>
               <Bolder>Name: </Bolder> {actionItem.name}
             </ItemDetail>
@@ -48,7 +51,7 @@ const ShowActionItem = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Resource Assigned: </Bolder>
-              {resource.name}
+              {(resource && resource.name) || "Doesn't exist"}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Expected Completion Date: </Bolder>

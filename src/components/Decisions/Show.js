@@ -34,6 +34,11 @@ const ShowDecision = () => {
         <>
           <Header>{decision.name}</Header>
           <Item>
+
+          <ItemDetail>
+              <Bolder>Unique ID: </Bolder> {decision.id}
+            </ItemDetail>
+
             <ItemDetail>
               <Bolder>Name: </Bolder> {decision.name}
             </ItemDetail>
@@ -61,7 +66,7 @@ const ShowDecision = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Decision Maker: </Bolder>
-              {resource.name}
+              {(resource && resource.name) || "Doesn't exist"}
             </ItemDetail>
             <ItemDetail>
               <Bolder>Expected Completion Date: </Bolder>

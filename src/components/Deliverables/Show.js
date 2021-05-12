@@ -20,7 +20,6 @@ const ShowDeliverable = () => {
         const task = await res.data().task.get();
         setTask(task.data());
       }
-
     };
     fetchData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -35,6 +34,9 @@ const ShowDeliverable = () => {
         <>
           <Header>{deliverable.name}</Header>
           <Item>
+            <ItemDetail>
+              <Bolder>Unique ID: </Bolder> {deliverable.id}
+            </ItemDetail>
             <ItemDetail>
               <Bolder>Name: </Bolder> {deliverable.name}
             </ItemDetail>
@@ -52,8 +54,7 @@ const ShowDeliverable = () => {
             </ItemDetail>
             <ItemDetail>
               <Bolder>Task: </Bolder>
-              {!task && "Doesn't exist"}
-              {task && task.name}
+              {(task && task.name) || "Doesn't exist"}
             </ItemDetail>
 
             <Link to={`/deliverables/${deliverable.id}/edit`}>

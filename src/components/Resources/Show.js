@@ -27,9 +27,12 @@ const ShowResource = () => {
     <div>
       {resource && (
         <>
-          {console.log(resource)}
+
           <Header>{resource.name}</Header>
           <Item>
+          <ItemDetail>
+              <Bolder>Unique ID: </Bolder> {resource.id}
+            </ItemDetail>
             <ItemDetail>
               <Bolder>Name: </Bolder> {resource.name}
             </ItemDetail>
