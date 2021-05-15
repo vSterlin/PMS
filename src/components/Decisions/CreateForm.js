@@ -11,6 +11,7 @@ import {
   StyledSelect,
   StyledTextArea,
 } from "../Reusable/Form";
+import { Button } from "../Reusable/ShowItem";
 
 const validationSchema = Yup.object({
   
@@ -220,7 +221,7 @@ const Form = () => {
         </StyledInputWrapper>
 
         <div>
-          <button type="submit">Submit</button>
+        <Button darker type="submit">Submit</Button>
         </div>
       </StyledForm>
     </div>

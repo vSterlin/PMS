@@ -77,6 +77,11 @@ function App() {
         <Switch>
           {/* /////////////////////////////////////// */}
           <Route
+            path="/"
+            exact
+            component={() => <DeliverableList />}
+          />
+          <Route
             path="/deliverables"
             exact
             component={() => <DeliverableList />}

@@ -10,6 +10,7 @@ import {
   StyledInputWrapper,
   StyledSelect,
 } from "../Reusable/Form";
+import { Button } from "../Reusable/ShowItem";
 // import styled from "styled-components";
 
 // const Error = styled.span`
@@ -117,7 +118,7 @@ const Form = () => {
             </StyledInputWrapper>
 
             <div>
-              <button type="submit">Submit</button>
+              <Button darker type="submit">Submit</Button>
             </div>
           </StyledForm>
         </div>

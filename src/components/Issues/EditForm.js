@@ -12,6 +12,7 @@ import {
 } from "../Reusable/Form";
 
 import * as Yup from "yup";
+import { Button } from "../Reusable/ShowItem";
 
 const validationSchema = Yup.object({
   name: Yup.string().required(),
@@ -225,7 +226,7 @@ const Form = () => {
             </StyledInputWrapper>
 
             <div>
-              <button type="submit">Submit</button>
+              <Button darker type="submit">Submit</Button>
             </div>
           </StyledForm>
         </div>
